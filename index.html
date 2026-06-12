@@ -111,8 +111,7 @@
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; gap: 1px; background: rgba(255,255,255,0.1); }
 @media (max-width: 600px) { 
   .stats { grid-template-columns: repeat(2, 1fr); }
-  .hero-btns { flex-direction: column; align-items: center; }
-  .hero-btns .btn { width: 80%; text-align: center; }
+  .hero-btns { justify-content: center; }
 }.stat { padding: 2.5rem 1rem; }
 .stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--dawn); }
 .stat-label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage2); margin-top: 0.25rem; }
@@ -265,10 +264,10 @@
       <p>Well, it's all back and waiting for you again in 2026 (hopefully without Tsan clogging the Instant Pot with too much rice), so get those signups in, your formal finery out, because we're ready to rummmmmmmble again.</p>
       <p>This year, <strong>GLAMPING falls on August 6–9, 2026</strong> and we'd love to see you, your family, and your friends (and if you have no friends, your dog) for the whole catastrophe. Not only is it for a <a href="faq.html#getting-there">good cause</a>, but it's for a damned good time.</p>
     </div>
-    <div style="margin-top:1.75rem;">
-      <a href="registration.html" class="btn btn-ember">Register Now →</a>
-      <a href="faq.html" class="btn btn-pine" style="margin-left:0.75rem;">See what's in store →</a>
-    </div>
+<div style="margin-top:1.75rem;display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;">
+  <a href="registration.html" class="btn btn-ember">Register Now →</a>
+  <a href="faq.html" class="btn btn-pine">See what's in store →</a>
+</div>
   </div>
 </section>
 
