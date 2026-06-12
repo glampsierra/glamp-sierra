@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Glamp Sierra 2026</title>
+<!-- Open Graph / iMessage / social preview -->
+<!-- 📸 REPLACE the og:image URL below with your actual image URL once uploaded to GitHub -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://www.glampsierra.com/faq">
+<meta property="og:title"       content="FAQ — Glamp Sierra 2026">
+<meta property="og:description" content="Everything you need to know before you show up with your best flannel.">
+<meta property="og:image"       content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:image"      content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .page-hero {
+  background-image: url('images/dancing.jpeg');
+}
+.page-hero::before {
+  background: rgba(44,62,45,0.65); /* adjust 0–1 for darkness */
+}
+.faq-layout { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: start; }
+@media (max-width: 700px) { .faq-layout { grid-template-columns: 1fr; } }
+
+.faq-nav { position: sticky; top: 80px; }
+.faq-nav a {
+  display: block; font-size: 0.8rem; font-weight: 500; color: var(--bark);
+  padding: 0.45rem 0.75rem; border-radius: 6px; text-decoration: none;
+  border-left: 2px solid transparent; transition: all 0.2s;
+  margin-bottom: 0.15rem;
+}
+.faq-nav a:hover { color: var(--pine); border-left-color: var(--sage); background: var(--mist); }
+.faq-nav .faq-nav-section {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--sage); margin: 1rem 0 0.4rem 0.75rem;
+}
+
+.faq-section { margin-bottom: 3.5rem; scroll-margin-top: 80px; }
+.faq-section-title {
+  font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+  color: var(--pine); margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--mist);
+}
+
+.faq-item { margin-bottom: 0.5rem; border-radius: 8px; overflow: hidden; }
+.faq-q {
+  width: 100%; text-align: left; background: var(--white);
+  border: 1.5px solid #e4ede5; border-radius: 8px;
+  padding: 1rem 1.25rem; font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; font-weight: 500; color: var(--pine);
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.2s;
+}
+.faq-q:hover { background: var(--mist); border-color: var(--sage); }
+.faq-q.open { background: var(--mist); border-color: var(--pine); border-radius: 8px 8px 0 0; }
+.faq-q .chevron { font-size: 0.75rem; transition: transform 0.2s; color: var(--sage); }
+.faq-q.open .chevron { transform: rotate(180deg); }
+.faq-a {
+  display: none; padding: 1rem 1.25rem 1.25rem;
+  background: var(--mist); border: 1.5px solid var(--pine);
+  border-top: none; border-radius: 0 0 8px 8px;
+  font-size: 0.88rem; color: var(--bark); line-height: 1.75;
+}
+.faq-a.open { display: block; }
+.faq-a a { color: var(--ember); }
+
+/* What to bring */
+.bring-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+.bring-card {
+  background: var(--white); border-radius: 10px; padding: 1.25rem;
+  box-shadow: 0 2px 10px rgba(44,62,45,0.07);
+}
+.bring-card .bring-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.bring-card h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--pine); margin-bottom: 0.5rem; }
+.bring-card ul { list-style: none; font-size: 0.8rem; color: var(--bark); line-height: 1.8; }
+.bring-card ul li::before { content: '· '; color: var(--sage); }
+</style>
+</head>
+<body>
+
+<div class="announce">
+  🏕️ Registration is open for Glamp Sierra 2026! <a href="registration.html">Sign up now →</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Glamp <em>Sierra</em></a>
+  <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html" class="active">FAQ</a>
+    <a href="location.html">Location</a>
+    <a href="registration.html" class="register-link">Register</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="eyebrow">Got questions?</span>
+  <h1>FAQ</h1>
+  <p>Everything you need to know before you show up with your best flannel.</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="faq-layout">
+
+      <!-- Sidebar nav -->
+      <aside class="faq-nav" id="faqNav">
+        <div class="faq-nav-section">Food & Drink</div>
+        <a href="#food">Food</a>
+        <a href="#drinks">Drinks</a>
+        <div class="faq-nav-section">Activities</div>
+        <a href="#activities">What to do</a>
+        <div class="faq-nav-section">Logistics</div>
+        <a href="#payment">Payment</a>
+        <a href="#bring">What to bring</a>
+        <a href="#getting-there">Getting there</a>
+        <a href="#getting-there">The cause</a>
+      </aside>
+
+      <!-- FAQ content -->
+      <div>
+
+        <div class="faq-section" id="food">
+          <div class="faq-section-title">Food</div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">Do I have to cook? <span class="chevron">▾</span></button>
+            <div class="faq-a">Nope, no cooking for you! Meals are provided all weekend (we even like vegans). Most importantly, the coffee will be just as strong.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">What will we be eating? <span class="chevron">▾</span></button>
+            <div class="faq-a">It's Glamping, so no beans n' franks. Menu planning is underway, but by popular demand we'll have beignets and coffee for those of you who missed JazzFest. Saturday's formal dinner will feature Italian cheeses to go with some amazing sparkling waters.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">Can you accommodate dietary restrictions? <span class="chevron">▾</span></button>
+            <div class="faq-a">Yes! Please note any dietary restrictions or allergies in your registration (vegetarian, gluten-free, shellfish allergy, no red meat, etc.) and we'll make sure you're taken care of.</div>
+          </div>
+        </div>
+
+        <div class="faq-section" id="drinks">
+          <div class="faq-section-title">Drinks</div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">Will there be alcohol? <span class="chevron">▾</span></button>
+            <div class="faq-a">It's glamping, folks — have you met us? Besides our nightly wine and cheese, last year's gin tasting will be replaced with a single malt scotch tasting led by Noah "I-canna-do-it-Captain" Friedman-Biglin. Get yer eye droppers ready.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">What if I don't drink? <span class="chevron">▾</span></button>
+            <div class="faq-a">No problem at all — choose the no-alcohol meal plan ($175/person) and you'll have full access to all meals plus a great selection of non-alcoholic beverages. You'll just save $75 and remember more of the weekend.</div>
+          </div>
+        </div>
+
+        <div class="faq-section" id="activities">
+          <div class="faq-section-title">Activities</div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">What is there to do? <span class="chevron">▾</span></button>
+            <div class="faq-a">Where do we begin. Besides the normal mountain-y things — hiking, swimming, eating, and drinking — we have a packed schedule:
+              <br><br>
+              <strong>Food & drink events:</strong> Nightly wine and cheese, cheese fondue, a featured tasting, and a formal Saturday dinner.
+              <br><br>
+              <strong>Activities:</strong> Movie night, arts & crafts (dish towel stamping with a carved potato — yes, really), meteor shower watching, pontoon boat rental on the lake (great for watching Kevin train for a triathlon from a comfortable seated position, with snacks), and Noah leading a hike (attendance strongly encouraged for finding your way back to camp afterwards).
+              <br><br>
+              <strong>Games:</strong> Celebrity — our beloved and highly competitive group guessing game, similar to Taboo/Fishbowl. Teams take turns guessing famous names from clues. It's chaotic, it's intense, and it's the source of about 40% of Glamp Sierra's most memorable moments. Rules explained at camp. Jeffrey is still not allowed to nominate German royalty from the 18th century. There's also a strong rumor of game night featuring bid whist, dominoes (Wedel Rules), cribbage, and full-contact butterfly wrestling.
+              <br><br>
+              Glamping is a collaborative effort — if you'd like to lead an activity, let us know!
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">What's nearby? <span class="chevron">▾</span></button>
+            <div class="faq-a">Camp Sierra is 8 miles (15 min) from Shaver Lake, which has boat rentals, swimming beaches, and several restaurants and bars. Huntington Lake is 7 miles (25 min) away with swimming and boating. The area has excellent hiking — check the <a href="location.html">Location page</a> for our favorites.</div>
+          </div>
+        </div>
+
+        <div class="faq-section" id="payment">
+          <div class="faq-section-title">Payment</div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">How do I pay? <span class="chevron">▾</span></button>
+            <div class="faq-a">After you complete registration, you'll see payment instructions for the method you chose: Venmo, Zelle, PayPal (friends &amp; family), or check at camp. For Venmo, PayPal, and Zelle — please send as friends &amp; family to avoid fees. Include your name in the memo so we can match your payment.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">When is payment due? <span class="chevron">▾</span></button>
+            <div class="faq-a">We ask that you send payment at your earliest convenience after registering — just don't make us chase you down at camp! 
+              <br><br>
+              If you have any issues, just reach out at <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a> and we'll work something out.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">Can I split the cost with my roommates? <span class="chevron">▾</span></button>
+            <div class="faq-a">Absolutely! You have two options:
+              <br><br>
+              <strong>Option 1 — Register as a group:</strong> One person registers the whole room, adds all roommates, and pays the full total. You'll then handle collecting from your friends yourself — Venmo requests, the honor system, whatever works for your crew. We trust you.
+              <br><br>
+              <strong>Option 2 — Register individually:</strong> One person books the room first, then everyone else uses the "Join a reservation" option to add themselves separately. Each person pays their own share directly. Easy, no IOUs required.
+              <br><br>
+              Up to you!
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-section" id="bring">
+          <div class="faq-section-title">What to bring</div>
+          <p style="color:var(--bark);font-size:0.88rem;margin-bottom:1.5rem;">We provide all food, drinks, and activities. Here's what to pack for yourself:</p>
+
+          <div class="bring-grid">
+            <div class="bring-card">
+              <div class="bring-icon">🛏️</div>
+              <h4>Bedding & towels</h4>
+              <ul>
+                <li><strong>Dorm guests:</strong> bring your own sleeping bag or sheets + blankets, pillow, and towel for showering</li>
+                <li><strong>Duplex & King's Cabin:</strong> real beds with sheets and towels provided — no need to pack these</li>
+                <li>Earplugs always a good call</li>
+              </ul>
+            </div>
+            <div class="bring-card">
+              <div class="bring-icon">👗</div>
+              <h4>Clothing</h4>
+              <ul>
+                <li>Layers — mornings and evenings are chilly</li>
+                <li>Swimsuit</li>
+                <li>Comfortable walking shoes</li>
+                <li>Something fun for Saturday's formal dinner — wear whatever makes you happy, but we love to see people dressed up. Tsan will be dressed to the nines regardless.</li>
+                <li>Rain jacket just in case</li>
+              </ul>
+            </div>
+            <div class="bring-card">
+              <div class="bring-icon">🍽️</div>
+              <h4>Dishes (encouraged!)</h4>
+              <ul>
+                <li>Your own plate, bowl, mug, and utensils</li>
+                <li>We're trying to cut down on waste — every little bit helps</li>
+                <li>Don't stress if you forget — we'll have some to spare</li>
+              </ul>
+            </div>
+            <div class="bring-card">
+              <div class="bring-icon">🧴</div>
+              <h4>Toiletries</h4>
+              <ul>
+                <li>Sunscreen</li>
+                <li>Bug spray</li>
+                <li>Personal medications</li>
+              </ul>
+            </div>
+            <div class="bring-card">
+              <div class="bring-icon">🎒</div>
+              <h4>Extras</h4>
+              <ul>
+                <li>Day pack for hikes</li>
+                <li>Water bottle</li>
+                <li>Portable charger</li>
+                <li>Cash for Ken's (the grocery store)</li>
+                <li>Good vibes mandatory</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-section" id="getting-there">
+          <div class="faq-section-title">Getting there</div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">How do I get to Camp Sierra? <span class="chevron">▾</span></button>
+            <div class="faq-a">Camp Sierra is located at 40801 CA-168, Big Creek, CA 93605 in the Sierra Nevada mountains — about 60 miles northeast of Fresno. See the <a href="location.html">Location page</a> for a map and directions.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">Is there cell service? <span class="chevron">▾</span></button>
+            <div class="faq-a">Verizon works great, AT&T is decent, and everyone else is on their own. WiFi is available in the lodge buildings. Download your offline maps before you head up the mountain just in case.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">What is the good cause? <span class="chevron">▾</span></button>
+            <div class="faq-a">Camp Sierra holds a very special place in the hearts of our organizers Tsan and Molly, who both grew up going to family camp here. In September 2020, the Creek Fire — one of the largest wildfires in California history — started just half a mile from camp. Luckily the majority of camp was spared, but the outdoor chapel burned to the ground and the surrounding area was badly damaged. Camp Sierra is actively rebuilding, and groups like ours renting the facilities make a real difference to their operating budget. We come back every year because we want to make sure this special place sticks around for many more generations to enjoy.
+              <br><br>
+              You'll notice the burn area as you drive in — but look beyond it, because the wildflowers are beginning to grow back, and it's genuinely beautiful.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">More questions? <span class="chevron">▾</span></button>
+            <div class="faq-a">Email us at <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a> — we're happy to help.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Glamp <em>Sierra</em></span>
+  August 6–9, 2026 · Camp Sierra · Big Creek, CA<br><br>
+  Questions? <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-q.open').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+  if (!isOpen) { btn.classList.add('open'); answer.classList.add('open'); }
+}
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
+});
+</script>
+</body>
+</html>

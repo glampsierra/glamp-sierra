@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — Glamp Sierra 2026</title>
+<!-- Open Graph / iMessage / social preview -->
+<!-- 📸 REPLACE the og:image URL below with your actual image URL once uploaded to GitHub -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://www.glampsierra.com/pricing">
+<meta property="og:title"       content="Pricing — Glamp Sierra 2026">
+<meta property="og:description" content="Three lodging options, two meal plans. The registration form does all the math for you.">
+<meta property="og:image"       content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:image"      content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-hero {
+  background-image: url('images/pricing-hero.jpeg');
+}
+.page-hero::before {
+  background: rgba(44,62,45,0.65); /* adjust 0–1 for darkness */
+}
+.lodge-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.lodge-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 16px rgba(44,62,45,0.08);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.lodge-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.lodge-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+.lodge-card-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--pine); margin-bottom: 0.25rem; }
+.lodge-card-price { font-size: 1.5rem; font-weight: 500; color: var(--ember); margin-bottom: 0.75rem; }
+.lodge-card-price span { font-size: 0.8rem; font-weight: 300; color: var(--bark); }
+.lodge-card-detail { font-size: 0.85rem; color: var(--bark); line-height: 1.6; flex: 1; }
+.lodge-card-tag {
+  display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; background: var(--mist); color: var(--sage);
+  padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.75rem;
+}
+.sold-out .lodge-card-tag { background: #fde8e8; color: #b04040; }
+
+.carousel { position: relative; overflow: hidden; aspect-ratio: 4/3; width: 100%; }.carousel-imgs { display: flex; transition: transform 0.3s ease; height: 100%; }
+.carousel-imgs img { min-width: 100%; width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+.carousel-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,0.4); color: white; border: none;
+  width: 32px; height: 32px; border-radius: 50%; font-size: 1rem;
+  cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center;
+}
+.carousel-btn.prev { left: 8px; }
+.carousel-btn.next { right: 8px; }
+.carousel-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
+.carousel-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
+.carousel-dots span.active { background: white; }
+
+/* Meal plans */
+.plan-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 560px) { .plan-cards { grid-template-columns: 1fr; } }
+.plan-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: 0 2px 16px rgba(44,62,45,0.08);
+  border-top: 4px solid var(--sage);
+}
+.plan-card.featured { border-top-color: var(--ember); }
+.plan-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.plan-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--pine); margin-bottom: 0.25rem; }
+.plan-price { font-size: 2rem; font-weight: 500; color: var(--ember); margin-bottom: 0.75rem; }
+.plan-price span { font-size: 0.85rem; font-weight: 300; color: var(--bark); }
+.plan-includes { list-style: none; font-size: 0.85rem; color: var(--bark); }
+.plan-includes li { padding: 0.3rem 0; border-bottom: 1px solid var(--mist); }
+.plan-includes li:last-child { border-bottom: none; }
+.plan-includes li::before { content: '✓ '; color: var(--sage); font-weight: 500; }
+
+/* Calculator note */
+.calc-note {
+  background: var(--mist);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  margin-top: 2.5rem;
+  font-size: 0.88rem;
+  color: var(--bark);
+  line-height: 1.7;
+}
+.calc-note strong { color: var(--pine); }
+</style>
+</head>
+<body>
+
+<div class="announce">
+  🏕️ Registration is open for Glamp Sierra 2026! <a href="registration.html">Sign up now →</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Glamp <em>Sierra</em></a>
+  <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="pricing.html" class="active">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="location.html">Location</a>
+    <a href="registration.html" class="register-link">Register</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="eyebrow">Inflation who?</span>
+  <h1>Pricing</h1>
+  <p>Your total is lodging + meal plan. The registration form calculates it all for you automatically.</p>
+</div>
+
+<!-- Lodging -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Step 1</span>
+    <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:0.5rem;">Choose your lodging</h2>
+    <div class="divider"></div>
+    <p style="color:var(--bark);margin-bottom:2rem;font-size:0.92rem;">Room costs are split evenly among everyone sharing. The more friends you bring, the cheaper it gets.</p>
+
+    <div class="lodge-cards">
+      <div class="lodge-card">
+      <div class="carousel" data-index="0">
+  <div class="carousel-imgs">
+    <img src="images/dorm-01.heic" alt="Dorm room">
+    <img src="images/dorm-02.heic" alt="Dorm room">
+    <img src="images/dorm-03.heic" alt="Shared bathroom">    
+    <img src="images/dorm-04.heic" alt="Dorm lobby">
+  </div>
+  <button class="carousel-btn prev" onclick="slide(this,-1)">&#8249;</button>
+  <button class="carousel-btn next" onclick="slide(this,1)">&#8250;</button>
+  <div class="carousel-dots">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+        <div class="lodge-card-body">
+          <span class="lodge-card-tag">Most affordable</span>
+          <div class="lodge-card-name">Dorm</div>
+          <div class="lodge-card-price">$300 <span>/ room per weekend</span></div>
+          <div class="lodge-card-detail">Rooms in a shared lodge building. Each room has 2 bunks (4 beds). The lodge has shared bathrooms with sinks, toilets, and showers.<br><br><br><em>Note: bring your own sleeping bag or sheets, pillow, and towel.</em></div>
+        </div>
+      </div>
+
+      <div class="lodge-card">
+<div class="carousel" data-index="0">
+  <div class="carousel-imgs">
+    <img src="images/duplex-01.jpeg" alt="Fir/Oak">
+    <img src="images/duplex-02.jpeg" alt="Shadrack">
+  </div>
+  <button class="carousel-btn prev" onclick="slide(this,-1)">&#8249;</button>
+  <button class="carousel-btn next" onclick="slide(this,1)">&#8250;</button>
+  <div class="carousel-dots">
+    <span class="active"></span>
+    <span></span>
+  </div>
+</div>
+        <div class="lodge-card-body">
+          <span class="lodge-card-tag">Most popular</span>
+          <div class="lodge-card-name">Duplex</div>
+          <div class="lodge-card-price">$700 <span>/ room per weekend</span></div>
+          <div class="lodge-card-detail">Private entry, private bathroom, one double bed plus bunk beds (up to 6). Includes microwave and mini-fridge.<br><br><br><em>Sheets and towels provided.</em></div>
+        </div>
+      </div>
+
+      <div class="lodge-card">
+        <div class="carousel" data-index="0">
+  <div class="carousel-imgs">
+    <img src="images/king-01.jpeg" alt="King's Cabin Living Room">
+    <img src="images/king-02.jpeg" alt="King's Cabin Bedroom">
+    <img src="images/king-03.jpeg" alt="King's Cabin Deck">
+  </div>
+  <button class="carousel-btn prev" onclick="slide(this,-1)">&#8249;</button>
+  <button class="carousel-btn next" onclick="slide(this,1)">&#8250;</button>
+  <div class="carousel-dots">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+        <div class="lodge-card-body">
+          <span class="lodge-card-tag">Premium</span>
+          <div class="lodge-card-name">King's Cabin</div>
+          <div class="lodge-card-price">$850 <span>/ cabin per weekend</span></div>
+          <div class="lodge-card-detail">A full private cabin with living room, kitchen, bedroom, bathroom, and private deck. Sleeps up to 4.<br><br><br><em>Sheets and towels provided.</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Meal plans -->
+<section class="section section-alt">
+  <div class="container">
+    <span class="eyebrow">Step 2</span>
+    <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:0.5rem;">Choose your meal plan</h2>
+    <div class="divider"></div>
+    <p style="color:var(--bark);margin-bottom:2rem;font-size:0.92rem;">Each person chooses their own plan. Both include all meals for the full weekend.</p>
+
+    <div class="plan-cards">
+      <div class="plan-card featured">
+        <div class="plan-icon">🍷</div>
+        <div class="plan-name">Full plan</div>
+        <div class="plan-price">$250 <span>/ person</span></div>
+        <ul class="plan-includes">
+          <li>All meals (Thu dinner through Sun breakfast)</li>
+          <li>Wine &amp; cheese nightly</li>
+          <li>Full open bar</li>
+          <li>Featured tasting</li>
+          <li>All non-alcoholic beverages</li>
+        </ul>
+      </div>
+      <div class="plan-card">
+        <div class="plan-icon">🥤</div>
+        <div class="plan-name">No-alcohol plan</div>
+        <div class="plan-price">$175 <span>/ person</span></div>
+        <ul class="plan-includes">
+          <li>All meals (Thu dinner through Sun breakfast)</li>
+          <li>All non-alcoholic beverages</li>
+          <li>Coffee, tea, juices, sodas</li>
+          <li>Everything except the alcohol</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="calc-note">
+      <strong>Your total = lodging share + meal plan.</strong> For example: 4 friends sharing a Duplex ($700 ÷ 4 = $175 each) on the full plan ($250) = <strong>$425/person</strong> for the whole weekend. The registration form calculates this automatically as you fill it out — no math required.
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--pine);padding:4rem 1.5rem;text-align:center;">
+  <span class="eyebrow" style="color:var(--sage2);">Ready?</span>
+  <h2 style="color:var(--dawn);font-size:clamp(1.5rem,4vw,2.5rem);margin-bottom:0.75rem;">Grab your spot</h2>
+  <p style="color:var(--sage2);margin-bottom:2rem;">The registration form walks you through everything step by step.</p>
+  <a href="registration.html" class="btn btn-ember">Register Now →</a>
+</section>
+
+<footer>
+  <span class="footer-logo">Glamp <em>Sierra</em></span>
+  August 6–9, 2026 · Camp Sierra · Big Creek, CA<br><br>
+  Questions? <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a>
+</footer>
+
+<script>
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
+});
+
+function slide(btn, dir) {
+  const carousel = btn.closest('.carousel');
+  const imgs = carousel.querySelector('.carousel-imgs');
+  const dots = carousel.querySelectorAll('.carousel-dots span');
+  let index = parseInt(carousel.dataset.index);
+  index = (index + dir + dots.length) % dots.length;
+  carousel.dataset.index = index;
+  imgs.style.transform = `translateX(-${index * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === index));
+}
+</script>
+</body>
+</html>

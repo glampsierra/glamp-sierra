@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glamp Sierra 2026</title>
+<meta name="description" content="The most epic, luxurious, and downright fabulous camping experience of the year. August 6–9, 2026 · Big Creek, CA">
+<!-- Open Graph / iMessage / social preview -->
+<!-- 📸 REPLACE the og:image URL below with your actual image URL once uploaded to GitHub -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://www.glampsierra.com/">
+<meta property="og:title"       content="Glamp Sierra 2026">
+<meta property="og:description" content="The most epic glamping weekend of the year. All meals, all drinks, real beds, mountain air. August 6–9, 2026 · Big Creek, CA">
+<meta property="og:image"       content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:image"      content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── Hero ── */
+/*
+  TO ADD A BACKGROUND IMAGE:
+  Change the --hero-bg line below to your image URL, e.g.:
+  --hero-bg: url('images/your-photo.jpg');
+  Then set --hero-overlay to control how dark the overlay is (0 = none, 0.7 = dark).
+*/
+:root {
+  --hero-bg: url('images/happy-hour-main.jpeg');          /* Set to: url('images/your-photo.jpg') */
+  --hero-overlay: 0.75;     /* Darkness of overlay when image is set (0–1) */
+}
+.hero {
+  background-color: var(--pine);
+  background-image: url('images/happy-hour-main.jpeg');
+  background-size: cover;
+  background-position: center;
+  min-height: 92vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(44,62,45,0.75);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(255,255,255,0.85); margin-bottom: 1.25rem;
+  position: relative;
+}
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--dawn); margin-bottom: 1.25rem;
+  position: relative;
+}
+.hero h1 em { color: var(--sage); }
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: rgba(255,255,255,0.85); max-width: 540px; margin: 0 auto 2.5rem;
+  line-height: 1.6; position: relative;
+}
+.hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+.hero-dates {
+  position: absolute; bottom: 2rem;
+  font-size: 0.75rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--sage);
+}
+
+/* ── Announcement ── */
+.announcement {
+  background: var(--dawn);
+  border-left: 5px solid var(--ember);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 2rem 2.5rem;
+  margin: 0 0 0.5rem;
+}
+.announcement p {
+  color: var(--bark);
+  font-size: 0.97rem;
+  line-height: 1.8;
+  margin-bottom: 0.85rem;
+}
+.announcement p:last-child { margin-bottom: 0; }
+.announcement p strong { color: var(--pine); }
+
+/* ── Intro ── */
+.intro-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+@media (max-width: 700px) { .intro-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.intro-text h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 1rem; }
+.intro-text p { color: var(--bark); margin-bottom: 1rem; font-size: 0.95rem; }
+.intro-img {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.intro-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── Stats strip ── */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; gap: 1px; background: rgba(255,255,255,0.1); }
+@media (max-width: 600px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.stat { padding: 2.5rem 1rem; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--dawn); }
+.stat-label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage2); margin-top: 0.25rem; }
+
+/* ── Gallery ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+.gallery-grid img {
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+}
+.gallery-grid img:hover { transform: scale(1.02); box-shadow: 0 8px 32px rgba(44,62,45,0.15); }
+.gallery-grid img {
+  width: 100%; display: block; margin-bottom: 0.75rem;
+  border-radius: 8px; break-inside: avoid;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.gallery-grid img:hover { transform: scale(1.02); box-shadow: 0 8px 32px rgba(44,62,45,0.15); }
+
+.gallery-testimonial {
+  background: var(--white);
+  border-radius: 8px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 16px rgba(44,62,45,0.07);
+  border-left: 4px solid var(--ember);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.gallery-testimonial .stars { color: var(--ember); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.gallery-testimonial p { font-style: italic; color: var(--bark); font-size: 0.92rem; line-height: 1.7; }
+
+/* ── Testimonials ── */
+.testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.testimonial {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: 0 2px 16px rgba(44,62,45,0.07);
+  border-left: 4px solid var(--ember);
+}
+.testimonial p { font-style: italic; color: var(--bark); font-size: 0.92rem; line-height: 1.7; }
+.testimonial .stars { color: var(--ember); font-size: 0.85rem; margin-bottom: 0.75rem; }
+
+/* ── CTA banner ── */
+.cta-banner {
+  background: var(--ember);
+  padding: 4rem 1.5rem;
+  text-align: center;
+  color: white;
+}
+.cta-banner h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); color: white; margin-bottom: 0.75rem; }
+.cta-banner p { opacity: 0.85; margin-bottom: 2rem; font-size: 1rem; }
+.btn-white { background: white; color: var(--ember); }
+.btn-white:hover { background: var(--dawn); color: var(--ember); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="announce">
+  🏕️ Registration is open for Glamp Sierra 2026! <a href="registration.html">Sign up now →</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Glamp <em>Sierra</em></a>
+  <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="location.html">Location</a>
+    <a href="registration.html" class="register-link">Register</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-eyebrow">August 6 – 9, 2026 · Big Creek, CA</div>
+  <h1>Glamp <em>Sierra</em></h1>
+  <p class="hero-sub">The most epic, luxurious, and downright fabulous camping experience of the year. All meals, all drinks, all fun - no cooking required.</p>
+  <div class="hero-btns">
+    <a href="registration.html" class="btn btn-ember">Register Now</a>
+    <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+  </div>
+  <div class="hero-dates">Camp Sierra · Big Creek, CA · 3 nights, 4 days</div>
+</section>
+
+<!-- Intro -->
+<section class="section">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-text">
+        <span class="eyebrow">What is Glamp Sierra?</span>
+        <h2>Camping, but make it <em>fabulous</em></h2>
+        <div class="divider"></div>
+        <p>Forget the tent stakes and freeze-dried meals. Glamp Sierra is a long weekend in the Sierra Nevada mountains with a group of wonderful people, real beds, Chef Tsan-prepared food, an open bar, and activities ranging from hiking to our yearly spirit tasting.</p>
+        <p>We take care of everything — you just show up, breathe the mountain air, and try not to win Celebrity too aggressively.</p>
+        <a href="faq.html" class="btn btn-pine" style="margin-top:0.5rem;">Learn more →</a>
+      </div>
+      <div class="intro-img">
+        <img src="images/fabulous-02.jpeg" alt="Fabulous">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section-pine" style="padding: 0;">
+  <div class="container-wide">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Days & nights</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Cabin types</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Wine & cheese</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Cooking required</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Announcement -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">2026 is coming</span>
+    <h2 style="font-size:clamp(1.75rem,4vw,2.5rem);margin-bottom:0.5rem;">We're ready to <em>rummmmmmmble</em></h2>
+    <div class="divider"></div>
+    <div class="announcement">
+      <p>What was <strong>YOUR</strong> favorite part of glamping last year?</p>
+      <p>The ridiculous amount of cheese? Making a dish towel with a carved potato? Movie night ("My biological clock is ticking like <i>this</i>")? <strong>TAKING HOME ALL THE SOUP?</strong></p>
+      <p>Was it the highly competitive game of Celebrity? The cheese fondue? The meteor shower? The hikes? Watching Kevin train for a tri from the comfort of the Pontoon boat (with snacks!)</p>
+      <p>I know, it was discovering Stuart and Noah are the vinicultural manifestation of Jack Sprat and his wife, and that Richard cheats by holding the bottle. Was it getting your floor length gown dirty, because Tsan insisted you bring it for the formal night.</p>
+      <p>Maybe it was <strong>NOT</strong> having to sleep on the ground and still feel like you're roughing it.</p>
+      <p>Well, it's all back and waiting for you again in 2026 (hopefully without Tsan clogging the Instant Pot with too much rice), so get those signups in, your formal finery out, because we're ready to rummmmmmmble again.</p>
+      <p>This year, <strong>GLAMPING falls on August 6–9, 2026</strong> and we'd love to see you, your family, and your friends (and if you have no friends, your dog) for the whole catastrophe. Not only is it for a <a href="faq.html#getting-there">good cause</a>, but it's for a damned good time.</p>
+    </div>
+    <div style="margin-top:1.75rem;">
+      <a href="registration.html" class="btn btn-ember">Register Now →</a>
+      <a href="faq.html" class="btn btn-pine" style="margin-left:0.75rem;">See what's in store →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- Gallery -->
+<section class="section section-alt">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <span class="eyebrow">Don't just take our word for it</span>
+      <h2 style="font-size:clamp(1.75rem,4vw,2.5rem);">What to expect*</h2>
+      <div class="divider divider-center"></div>
+      <p style="color:var(--bark);font-size:0.82rem;">*results may vary</p>
+    </div>
+    <div class="gallery-grid">
+        <img src="images/gallery-01.jpeg">
+        <img src="images/gallery-02.jpeg">
+
+        <div class="gallery-testimonial">
+          <div class="stars">★★★★☆</div>
+          <p>"I loved my Glamping experience! I only got three bugs in my wine. The lake was freezing but I was drunk so… Got 27 mosquito bites, but my phone was fully charged the entire time."</p>
+        </div>
+        <img src="images/gallery-03.jpeg">
+        <img src="images/gallery-04.jpeg">
+        <img src="images/gallery-05.jpeg">
+        <img src="images/gallery-06.jpeg">
+        <img src="images/gallery-07.jpeg">
+        <img src="images/gallery-08.jpeg">
+        <img src="images/gallery-09.jpeg">
+
+        <div class="gallery-testimonial">
+          <div class="stars">★☆☆☆☆</div>
+          <p>"Stepping on a bee. One star. Do not recommend."</p>
+        </div>
+
+        <img src="images/gallery-10.jpeg">
+        <img src="images/gallery-11.jpeg">
+        <img src="images/gallery-12.jpeg">
+        <img src="images/gallery-13.jpeg">
+        <img src="images/gallery-14.jpeg">
+        <img src="images/gallery-15.jpeg">
+        <img src="images/gallery-16.jpeg">
+        <img src="images/gallery-17.jpeg">
+        <img src="images/gallery-18.jpeg">
+        <img src="images/gallery-19.jpeg">
+        <img src="images/gallery-20.jpeg">
+        <img src="images/gallery-21.jpeg">
+        <img src="images/gallery-22.jpeg">
+        <img src="images/gallery-23.jpeg">
+        <img src="images/gallery-24.jpeg">
+        <img src="images/gallery-25.jpeg">
+        <img src="images/gallery-26.jpeg">
+        <img src="images/gallery-27.jpeg">
+
+
+        <div class="gallery-testimonial">
+          <div class="stars">★★★★★</div>
+          <p>"We rented a pontoon boat. They were supposed to pick me up, but never showed up so I shared my meat stick and six pack with a local. We are now married and expecting our first child."</p>
+        </div>
+        
+        <img src="images/gallery-28.jpeg">
+        <img src="images/gallery-29.jpeg">
+
+      <div class="gallery-testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"There is a grocery store nearby called Ken's. Their motto is <em>If we don't have it, you don't need it.</em> I can't believe it. I'm no longer diabetic and don't need insulin after going there."</p>
+      </div>
+
+        <img src="images/gallery-30.jpeg">
+        <img src="images/gallery-31.jpeg">
+        <img src="images/gallery-32.jpeg">
+        <img src="images/gallery-33.jpeg">
+        <img src="images/gallery-34.jpeg">
+        <img src="images/gallery-35.jpeg">
+        <img src="images/gallery-36.jpeg">
+        <img src="images/gallery-37.jpeg">
+        <img src="images/gallery-37.jpeg">
+        <img src="images/gallery-39.jpeg">
+
+        <img src="images/happy-hour-02.jpeg" class="solo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <h2>Ready to glamp?</h2>
+  <p>August 6–9, 2026 · Camp Sierra · Big Creek, CA</p>
+  <a href="registration.html" class="btn btn-white">Register Now →</a>
+</section>
+
+<footer>
+  <span class="footer-logo">Glamp <em>Sierra</em></span>
+  August 6–9, 2026 · Camp Sierra · Big Creek, CA<br><br>
+  Questions? <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a>
+</footer>
+
+<script>
+// Close mobile menu when a link is clicked
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Location — Glamp Sierra 2026</title>
+<!-- Open Graph / iMessage / social preview -->
+<!-- 📸 REPLACE the og:image URL below with your actual image URL once uploaded to GitHub -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://www.glampsierra.com/location">
+<meta property="og:title"       content="Location — Glamp Sierra 2026">
+<meta property="og:description" content="Camp Sierra · Big Creek, CA · Deep in the Sierra Nevada mountains, surrounded by forests, lakes, and wildflowers.">
+<meta property="og:image"       content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:image"      content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .page-hero {
+  background-image: url('images/swimming-hole.heic');
+}
+.page-hero::before {
+  background: rgba(44,62,45,0.65); /* adjust 0–1 for darkness */
+}
+.map-embed {
+  width: 100%; height: 420px; border: none;
+  border-radius: var(--radius); box-shadow: 0 4px 24px rgba(44,62,45,0.1);
+}
+
+.nearby-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+.nearby-card {
+  background: var(--white); border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(44,62,45,0.07);
+  border-top: 3px solid var(--sage);
+}
+.nearby-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--pine); margin-bottom: 0.3rem; }
+.nearby-card .distance { font-size: 0.75rem; color: var(--sage); font-weight: 500; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+.nearby-card p { font-size: 0.83rem; color: var(--bark); line-height: 1.6; }
+
+.hike-list { list-style: none; }
+.hike-list li {
+  padding: 1rem 0; border-bottom: 1px solid var(--mist);
+  display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;
+}
+.hike-list li:last-child { border-bottom: none; }
+.hike-name { font-weight: 500; color: var(--pine); font-size: 0.92rem; }
+.hike-detail { font-size: 0.8rem; color: var(--bark); margin-top: 0.2rem; }
+.hike-badge {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 4px;
+  white-space: nowrap;
+}
+.easy { background: #e6f4e6; color: #2a6e2a; }
+.moderate { background: #fff3e0; color: #8a5200; }
+.hard { background: #fde8e8; color: #8a2020; }
+</style>
+</head>
+<body>
+
+<div class="announce">
+  🏕️ Registration is open for Glamp Sierra 2026! <a href="registration.html">Sign up now →</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Glamp <em>Sierra</em></a>
+  <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="location.html" class="active">Location</a>
+    <a href="registration.html" class="register-link">Register</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="eyebrow">Camp Sierra · Big Creek, CA</span>
+  <h1>Location</h1>
+  <p>Deep in the Sierra Nevada mountains, surrounded by forests, lakes, and and the occasional bar of service.</p>
+</div>
+
+<!-- Map -->
+<section class="section-sm">
+  <div class="container">
+    <span class="eyebrow">Find us</span>
+    <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:0.5rem;">Camp Sierra</h2>
+    <div class="divider"></div>
+    <p style="color:var(--bark);margin-bottom:1.5rem;font-size:0.92rem;">
+      <a href="http://campsierra.org" target="_blank">Camp Sierra</a> is located at <strong>40801 CA-168, Big Creek, CA 93605</strong> in the Sierra National Forest — about 60 miles northeast of Fresno.
+    </p>
+    <iframe class="map-embed"
+      src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d6356.579306718653!2d-119.26381088694245!3d37.19334905258255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scamp%20sierra!5e0!3m2!1sen!2sus!4v1781246150977!5m2!1sen!2sus"
+      allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <p style="font-size:0.8rem;color:var(--bark);margin-top:0.75rem;">
+      💡 <strong>Tip:</strong> Download offline maps before you leave — cell service can be spotty in the mountains.
+    </p>
+  </div>
+</section>
+
+<!-- Nearby -->
+<section class="section section-alt">
+  <div class="container">
+    <span class="eyebrow">Explore the area</span>
+    <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:0.5rem;">What's nearby</h2>
+    <div class="divider"></div>
+    <div class="nearby-grid">
+      <div class="nearby-card">
+        <h3>Shaver Lake</h3>
+        <div class="distance">8 miles · 15 min</div>
+        <p>Boat rentals, swimming beaches, and several restaurants and bars in town. Great for a day trip or a morning on the water.</p>
+      </div>
+      <div class="nearby-card">
+        <h3>Huntington Lake</h3>
+        <div class="distance">7 miles · 25 min</div>
+        <p>Swimming, sailing, and kayaking on a beautiful high-altitude reservoir. Less crowded than Shaver, with a couple of good spots for lunch.</p>
+      </div>
+      <div class="nearby-card">
+        <h3>Ken's Supermarket</h3>
+        <div class="distance">Big Creek</div>
+        <p>Local grocery store with the legendary motto: <em>"If we don't have it, you don't need it."</em> Reportedly life-changing. Bring cash.</p>
+      </div>
+      <div class="nearby-card">
+        <h3>Sierra National Forest</h3>
+        <div class="distance">All around you</div>
+        <p>Over 1.3 million acres of wilderness at your doorstep. Wildflowers in summer, stunning granite views, and trails for every fitness level.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hikes -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Get outside</span>
+    <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:0.5rem;">Favorite hikes &amp; day trips</h2>
+    <div class="divider"></div>
+    <p style="color:var(--bark);font-size:0.88rem;margin-bottom:1.5rem;">These are all within 30–45 minutes of camp. Noah will be leading at least one of these — attendance strongly encouraged.</p>
+
+    <ul class="hike-list">
+      <li>
+        <div>
+          <div class="hike-name">Rancheria Falls</div>
+          <div class="hike-detail">2 miles round trip · Lush waterfall hike through mixed conifer forest. One of the most beautiful short hikes in the area.</div>
+        </div>
+        <span class="hike-badge easy">Easy</span>
+      </li>
+      <li>
+        <div>
+          <div class="hike-name">Indian Pools</div>
+          <div class="hike-detail">1.5 miles round trip · Natural granite swimming holes on the San Joaquin River. Perfect for a hot afternoon.</div>
+        </div>
+        <span class="hike-badge easy">Easy</span>
+      </li>
+      <li>
+        <div>
+          <div class="hike-name">Dinkey Lakes Wilderness</div>
+          <div class="hike-detail">Variable · Series of alpine lakes surrounded by granite. Endless options from short loops to full-day adventures.</div>
+        </div>
+        <span class="hike-badge moderate">Moderate</span>
+      </li>
+      <li>
+        <div>
+          <div class="hike-name">Kaiser Peak</div>
+          <div class="hike-detail">10 miles round trip · Summit hike with panoramic Sierra views. Not for the faint of heart — or anyone who overindulged at the scotch tasting.</div>
+        </div>
+        <span class="hike-badge hard">Strenuous</span>
+      </li>
+      <li>
+        <div>
+          <div class="hike-name">Shaver Lake Shoreline</div>
+          <div class="hike-detail">Variable · Easy lakeside walking with views of the water and surrounding pines. Good for morning coffee walks.</div>
+        </div>
+        <span class="hike-badge easy">Easy</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section style="background:var(--pine);padding:4rem 1.5rem;text-align:center;">
+  <h2 style="color:var(--dawn);font-size:clamp(1.5rem,4vw,2rem);margin-bottom:0.75rem;">See you in the mountains</h2>
+  <p style="color:var(--sage2);margin-bottom:2rem;">August 6–9, 2026 · Camp Sierra · Big Creek, CA</p>
+  <a href="registration.html" class="btn btn-ember">Register Now →</a>
+</section>
+
+<footer>
+  <span class="footer-logo">Glamp <em>Sierra</em></span>
+  August 6–9, 2026 · Camp Sierra · Big Creek, CA<br><br>
+  Questions? <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a>
+</footer>
+
+<script>
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
+});
+</script>
+</body>
+</html>

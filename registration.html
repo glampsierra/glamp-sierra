@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register — Glamp Sierra 2026</title>
+<!-- Open Graph / iMessage / social preview -->
+<!-- 📸 REPLACE the og:image URL below with your actual image URL once uploaded to GitHub -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://www.glampsierra.com/registration">
+<meta property="og:title"       content="Register — Glamp Sierra 2026">
+<meta property="og:description" content="Secure your spot at Glamp Sierra 2026. August 6–9 · Camp Sierra · Big Creek, CA">
+<meta property="og:image"       content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:image"      content="https://glampsierra.github.io/glamp-sierra/images/preview.jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-hero {
+  background-image: url('images/happy-hour-02.jpeg');
+}
+.page-hero::before {
+  background: rgba(44,62,45,0.65); /* adjust 0–1 for darkness */
+}
+.reg-page {
+  min-height: 100vh;
+  padding: 2.5rem 1.25rem 4rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+</style>
+
+<!-- Registration form styles (inlined from standalone form) -->
+<style>
+  :root {
+    --pine:  #2C3E2D; --sage:  #7A9E7E; --dawn:  #F2EBE0;
+    --ember: #C4622D; --bark:  #5C4A38; --mist:  #EAF0EA;
+    --white: #FFFFFF; --err:   #B94040;
+  }
+  .progress-wrap { display: flex; gap: 6px; margin-bottom: 1.75rem; }
+  .progress-wrap .pip { height: 4px; flex: 1; border-radius: 2px; background: #d8e5d9; transition: background 0.3s; }
+  .progress-wrap .pip.done { background: var(--sage); }
+  .progress-wrap .pip.active { background: var(--ember); }
+  .step { background: var(--white); border-radius: 12px; padding: 2rem; margin-bottom: 1.25rem; box-shadow: 0 2px 12px rgba(44,62,45,0.06); display: none; }
+  .step.active { display: block; }
+  .step-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage); margin-bottom: 0.4rem; }
+  .step h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--pine); margin-bottom: 1.5rem; }
+  .field { margin-bottom: 1.25rem; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--bark); margin-bottom: 0.4rem; letter-spacing: 0.03em; }
+  .field input, .field select, .field textarea { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid #d4dfd5; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 300; color: var(--pine); background: var(--white); transition: border-color 0.2s; -webkit-appearance: none; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(122,158,126,0.15); }
+  .field textarea { resize: vertical; min-height: 70px; }
+  .field .hint { font-size: 0.75rem; color: #8a9e8b; margin-top: 0.3rem; }
+  .field.error input, .field.error select, .field.error textarea { border-color: var(--err); }
+  .field .err-msg { font-size: 0.75rem; color: var(--err); margin-top: 0.3rem; display: none; }
+  .field.error .err-msg { display: block; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+  .lodge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+  @media (max-width: 520px) { .lodge-grid { grid-template-columns: 1fr; } }
+  .lodge-card { border: 2px solid #d4dfd5; border-radius: 10px; padding: 1rem 0.85rem; cursor: pointer; transition: all 0.2s; position: relative; }
+  .lodge-card:hover { border-color: var(--sage); background: var(--mist); }
+  .lodge-card.selected { border-color: var(--pine); background: var(--mist); }
+  .lodge-card.selected::after { content: '✓'; position: absolute; top: 8px; right: 10px; font-size: 0.75rem; color: var(--pine); font-weight: 700; }
+  .lodge-card input[type="radio"] { display: none; }
+  .lodge-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--pine); margin-bottom: 0.25rem; }
+  .lodge-price { font-size: 1.05rem; font-weight: 500; color: var(--ember); }
+  .lodge-detail { font-size: 0.72rem; color: #7a8e7b; margin-top: 0.3rem; line-height: 1.4; }
+  .camper-card { border: 1.5px solid #d4dfd5; border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+  .camper-card-header { display: flex; align-items: center; justify-content: space-between; background: var(--mist); padding: 0.85rem 1.25rem; cursor: pointer; }
+  .camper-card-header .camper-title { font-weight: 500; font-size: 0.95rem; color: var(--pine); }
+  .camper-card-header .camper-subtitle { font-size: 0.78rem; color: var(--sage); margin-top: 0.1rem; }
+  .camper-card-header .toggle-icon { font-size: 0.85rem; color: var(--bark); transition: transform 0.2s; }
+  .camper-card-header.collapsed .toggle-icon { transform: rotate(-90deg); }
+  .camper-card-body { padding: 1.25rem; border-top: 1.5px solid #e4ede5; }
+  .camper-card-body.hidden { display: none; }
+  .remove-camper { background: none; border: none; color: #b04040; font-size: 0.78rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 5px; }
+  .remove-camper:hover { background: #fde8e8; }
+  .mini-plan { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+  .mini-plan-card { border: 1.5px solid #d4dfd5; border-radius: 8px; padding: 0.75rem 0.85rem; cursor: pointer; transition: all 0.2s; position: relative; font-size: 0.85rem; }
+  .mini-plan-card:hover { border-color: var(--sage); background: var(--mist); }
+  .mini-plan-card.selected { border-color: var(--pine); background: var(--mist); }
+  .mini-plan-card.selected::after { content: '✓'; position: absolute; top: 6px; right: 8px; font-size: 0.7rem; color: var(--pine); font-weight: 700; }
+  .mini-plan-card input[type="radio"] { display: none; }
+  .mini-plan-name { font-weight: 500; color: var(--pine); }
+  .mini-plan-price { color: var(--ember); font-weight: 500; margin-top: 0.15rem; }
+  .mini-plan-detail { font-size: 0.7rem; color: #7a8e7b; margin-top: 0.1rem; }
+  .add-camper-btn { display: flex; align-items: center; gap: 0.5rem; width: 100%; background: none; border: 2px dashed #c0d0c1; border-radius: 10px; padding: 0.9rem 1.25rem; color: var(--sage); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 0.25rem; }
+  .add-camper-btn:hover { border-color: var(--sage); color: var(--pine); background: var(--mist); }
+  .add-camper-btn .plus { font-size: 1.1rem; font-weight: 700; }
+  .room-full-msg { font-size: 0.8rem; color: var(--bark); background: #fff8e7; border-left: 3px solid #e6a817; border-radius: 0 8px 8px 0; padding: 0.65rem 1rem; margin-top: 0.25rem; display: none; }
+  .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
+  @media (max-width: 480px) { .pay-grid { grid-template-columns: 1fr; } }
+  .pay-card { border: 2px solid #d4dfd5; border-radius: 10px; padding: 1.1rem 1rem; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
+  .pay-card:hover { border-color: var(--sage); background: var(--mist); }
+  .pay-card.selected { border-color: var(--pine); background: var(--mist); }
+  .pay-card.selected::after { content: '✓'; position: absolute; top: 8px; right: 10px; font-size: 0.75rem; color: var(--pine); font-weight: 700; }
+  .pay-card input[type="radio"] { display: none; }
+  .pay-icon { font-size: 1.6rem; margin-bottom: 0.35rem; }
+  .pay-name { font-weight: 500; font-size: 0.9rem; color: var(--pine); }
+  .pay-note { font-size: 0.7rem; color: #7a8e7b; margin-top: 0.2rem; line-height: 1.4; }
+  .price-box { background: var(--pine); border-radius: 10px; padding: 1.5rem; color: var(--dawn); margin-top: 1.5rem; }
+  .price-box h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--sage); letter-spacing: 0.03em; }
+  .price-line { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.85rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: #c8d8c9; }
+  .price-line:last-of-type { border-bottom: none; }
+  .price-line .amount { color: var(--dawn); }
+  .price-line.grand-total { font-size: 1rem; font-weight: 500; color: var(--dawn); margin-top: 0.25rem; padding-top: 0.65rem; border-top: 1px solid rgba(255,255,255,0.2); }
+  .price-line.grand-total .amount { font-size: 1.4rem; color: var(--sage); font-weight: 500; }
+  .review-section { margin-bottom: 1.25rem; }
+  .review-section h3 { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sage); margin-bottom: 0.6rem; }
+  .conf-box { background: var(--mist); border-radius: 10px; padding: 1.25rem; }
+  .conf-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.3rem 0; color: var(--bark); border-bottom: 1px solid #d8e5d9; }
+  .conf-row:last-child { border-bottom: none; }
+  .conf-row strong { color: var(--pine); }
+  .camper-summary { background: var(--mist); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.6rem; }
+  .camper-summary .cs-name { font-weight: 500; font-size: 0.9rem; color: var(--pine); margin-bottom: 0.4rem; }
+  .camper-summary .cs-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 0.2rem 0; color: var(--bark); }
+  .camper-summary .cs-row strong { color: var(--pine); }
+  .total-box { background: var(--pine); border-radius: 10px; padding: 1.25rem 1.5rem; color: var(--dawn); margin-top: 1rem; }
+  .total-box .trow { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.3rem 0; color: #c8d8c9; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .total-box .trow:last-child { border-bottom: none; }
+  .total-box .trow.grand { font-size: 1rem; font-weight: 500; color: var(--dawn); margin-top: 0.4rem; padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.2); }
+  .total-box .trow.grand .tamount { font-size: 1.35rem; color: var(--sage); font-weight: 500; }
+  .total-box .trow .tamount { color: var(--dawn); }
+  .btn-row { display: flex; gap: 0.75rem; margin-top: 1.75rem; justify-content: flex-end; }
+  .reg-btn { padding: 0.8rem 1.8rem; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; letter-spacing: 0.02em; }
+  .btn-back { background: transparent; border: 1.5px solid #c0d0c1; color: var(--bark); }
+  .btn-back:hover { border-color: var(--sage); color: var(--pine); }
+  .btn-next { background: var(--pine); color: var(--dawn); }
+  .btn-next:hover { background: #3d5a3e; }
+  .btn-submit { background: var(--ember); color: white; }
+  .btn-submit:hover { background: #b0561f; }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .note-banner { background: #fff8e7; border-left: 3px solid #e6a817; border-radius: 0 8px 8px 0; padding: 0.75rem 1rem; font-size: 0.8rem; color: #7a5c10; margin-bottom: 1.25rem; line-height: 1.5; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  @media (max-width: 480px) { .mode-grid { grid-template-columns: 1fr; } }
+  .mode-card { border: 2px solid #d4dfd5; border-radius: 12px; padding: 1.5rem 1.25rem; cursor: pointer; transition: all 0.2s; position: relative; text-align: center; }
+  .mode-card:hover { border-color: var(--sage); background: var(--mist); }
+  .mode-card.selected { border-color: var(--pine); background: var(--mist); }
+  .mode-card.selected::after { content: '✓'; position: absolute; top: 10px; right: 12px; font-size: 0.75rem; color: var(--pine); font-weight: 700; }
+  .mode-card input[type="radio"] { display: none; }
+  .mode-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+  .mode-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--pine); margin-bottom: 0.4rem; }
+  .mode-detail { font-size: 0.78rem; color: #7a8e7b; line-height: 1.5; }
+  #confirmation { background: var(--white); border-radius: 12px; padding: 2.5rem 2rem; text-align: center; box-shadow: 0 2px 12px rgba(44,62,45,0.06); display: none; }
+  #confirmation h2 { font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--pine); margin-bottom: 0.5rem; }
+  #confirmation p { color: var(--bark); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+  .check-instructions { background: var(--mist); border-radius: 10px; padding: 1.25rem; font-size: 0.85rem; color: var(--bark); line-height: 1.7; text-align: left; margin-top: 0.75rem; }
+  .pay-action-btn { display: inline-block; padding: 0.75rem 2rem; border-radius: 8px; font-weight: 500; font-size: 0.9rem; text-decoration: none; margin-top: 0.5rem; transition: background 0.2s; color: white; }
+  .zelle-btn { background: #6D1ED4; } .zelle-btn:hover { background: #5a17b0; }
+  .paypal-btn { background: #003087; } .paypal-btn:hover { background: #001f5a; }
+  .spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="announce">
+  🏕️ August 6–9, 2026 · Camp Sierra · Big Creek, CA
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Glamp <em>Sierra</em></a>
+  <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="location.html">Location</a>
+    <a href="registration.html" class="register-link active">Register</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="eyebrow">Let's do this</span>
+  <h1>Registration</h1>
+  <p>Fill out the form below and we'll see you in the mountains. Formal finery optional but encouraged.</p>
+</div>
+
+<div class="reg-page">
+  <div class="progress-wrap" id="progressBar">
+    <div class="pip active" id="pip0"></div>
+    <div class="pip" id="pip1"></div>
+    <div class="pip" id="pip2"></div>
+    <div class="pip" id="pip3"></div>
+    <div class="pip" id="pip4"></div>
+  </div>
+
+  <!-- Step 0: Mode -->
+  <div class="step active" id="step0">
+    <div class="step-label">Welcome</div>
+    <h2>How are you registering?</h2>
+    <p style="font-size:0.85rem;color:var(--bark);margin-bottom:1.25rem;line-height:1.6;">Starting a new room, or joining a friend who's already booked?</p>
+    <div class="mode-grid">
+      <label class="mode-card" onclick="selectMode('new', this)">
+        <input type="radio" name="mode" value="new">
+        <div class="mode-icon">🏕️</div>
+        <div class="mode-name">New registration</div>
+        <div class="mode-detail">Book a room and register everyone sharing it</div>
+      </label>
+      <label class="mode-card" onclick="selectMode('join', this)">
+        <input type="radio" name="mode" value="join">
+        <div class="mode-icon">🤝</div>
+        <div class="mode-name">Join a reservation</div>
+        <div class="mode-detail">Add yourself to a room someone else already booked</div>
+      </label>
+    </div>
+    <div id="modeError" style="font-size:0.8rem;color:var(--err);margin-bottom:0.75rem;display:none;">Please choose an option above.</div>
+    <div class="btn-row">
+      <button class="reg-btn btn-next" onclick="goToFromMode()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 1a: Lodge -->
+  <div class="step" id="step-new-lodge">
+    <div class="step-label">Step 2 of 5</div>
+    <h2>Choose your lodging</h2>
+    <div class="note-banner">Room costs are split evenly among everyone sharing. You'll register all roommates in the next step.</div>
+    <div class="lodge-grid" id="lodgeGrid"></div>
+    <div id="lodgeError" style="font-size:0.8rem;color:var(--err);margin-bottom:0.75rem;display:none;">Please select a lodging type.</div>
+    <div class="btn-row">
+      <button class="reg-btn btn-back" onclick="goTo(0)">← Back</button>
+      <button class="reg-btn btn-next" onclick="goToFromLodge()">Add campers →</button>
+    </div>
+  </div>
+
+  <!-- Step 1b: Join -->
+  <div class="step" id="step-join">
+    <div class="step-label">Step 2 of 4</div>
+    <h2>Which reservation are you joining?</h2>
+    <p style="font-size:0.85rem;color:var(--bark);margin-bottom:1.25rem;line-height:1.6;">Let us know the name on the reservation so we can add you to the right room. If you're not sure, just put your friend's name.</p>
+    <div class="field" id="f-joinName">
+      <label>Name on the reservation *</label>
+      <input type="text" id="joinName" placeholder="e.g. Jane Smith">
+      <div class="err-msg">Please enter the reservation name.</div>
+    </div>
+    <div class="btn-row">
+      <button class="reg-btn btn-back" onclick="goTo(0)">← Back</button>
+      <button class="reg-btn btn-next" onclick="goToFromJoin()">Add my details →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Campers -->
+  <div class="step" id="step1">
+    <div class="step-label" id="label-campers">Step 3 of 5</div>
+    <h2 id="heading-campers">Who's coming?</h2>
+    <p style="font-size:0.85rem;color:var(--bark);margin-bottom:1.25rem;line-height:1.6;" id="subtext-campers">Fill in details for everyone sharing this room. Each person chooses their own meal plan.</p>
+    <div id="campersContainer"></div>
+    <button class="add-camper-btn" id="addCamperBtn" onclick="addCamper()">
+      <span class="plus">+</span> Add another camper
+    </button>
+    <div class="room-full-msg" id="roomFullMsg">This room is at capacity.</div>
+    <div id="campersError" style="font-size:0.8rem;color:var(--err);margin-top:0.75rem;display:none;">Please complete the required fields for all campers.</div>
+    <div class="btn-row">
+      <button class="reg-btn btn-back" onclick="goBackFromCampers()">← Back</button>
+      <button class="reg-btn btn-next" onclick="goTo(2)">Review →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Review -->
+  <div class="step" id="step2">
+    <div class="step-label" id="label-review">Step 4 of 5</div>
+    <h2>Review your registration</h2>
+    <div class="review-section">
+      <h3 id="rev-lodge-heading">Lodging</h3>
+      <div class="conf-box">
+        <div class="conf-row" id="rev-row-lodge"><span>Room type</span><strong id="rev-lodge">—</strong></div>
+        <div class="conf-row" id="rev-row-cost"><span>Total room cost</span><strong id="rev-room-cost">—</strong></div>
+        <div class="conf-row" id="rev-row-roommates"><span id="rev-roommates-label">Sharing with</span><strong id="rev-roommates">—</strong></div>
+        <div class="conf-row" id="rev-row-share"><span>Lodge cost per person</span><strong id="rev-lodge-share">—</strong></div>
+      </div>
+    </div>
+    <div class="review-section">
+      <h3>Campers</h3>
+      <div id="camperSummaries"></div>
+    </div>
+    <div class="review-section">
+      <h3>Cost breakdown</h3>
+      <div class="total-box" id="totalBox"></div>
+    </div>
+    <div class="btn-row">
+      <button class="reg-btn btn-back" onclick="goTo(1)">← Back</button>
+      <button class="reg-btn btn-next" onclick="goTo(3)">Payment →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Payment -->
+  <div class="step" id="step3">
+    <div class="step-label" id="label-payment">Step 5 of 5</div>
+    <h2>How would you like to pay?</h2>
+    <p style="font-size:0.85rem;color:var(--bark);margin-bottom:0.25rem;line-height:1.6;">Your total is shown below. Payment instructions will appear after you submit.</p>
+    <div class="total-box" id="payTotalBox" style="margin-bottom:1.25rem;"></div>
+    <div class="note-banner">
+      <strong>Friends &amp; family only:</strong> For Venmo, PayPal, and Zelle, please send as friends &amp; family (not a business payment) to avoid fees.
+    </div>
+    <div class="pay-grid">
+      <label class="pay-card" onclick="selectPay('venmo', this)"><input type="radio" name="payment" value="venmo"><div class="pay-icon">💸</div><div class="pay-name">Venmo</div><div class="pay-note">Send as friends &amp; family</div></label>
+      <label class="pay-card" onclick="selectPay('zelle', this)"><input type="radio" name="payment" value="zelle"><div class="pay-icon">⚡</div><div class="pay-name">Zelle</div><div class="pay-note">Send directly from your bank app</div></label>
+      <label class="pay-card" onclick="selectPay('paypal', this)"><input type="radio" name="payment" value="paypal"><div class="pay-icon">🅿️</div><div class="pay-name">PayPal</div><div class="pay-note">Send as friends &amp; family — no fees</div></label>
+      <label class="pay-card" onclick="selectPay('check', this)"><input type="radio" name="payment" value="check"><div class="pay-icon">✏️</div><div class="pay-name">Check at camp</div><div class="pay-note">Bring a check when you arrive</div></label>
+    </div>
+    <div id="payError" style="font-size:0.8rem;color:var(--err);margin-top:0.5rem;display:none;">Please select a payment method.</div>
+    <div class="btn-row">
+      <button class="reg-btn btn-back" onclick="goTo(2)">← Back</button>
+      <button class="reg-btn btn-submit" id="submitBtn" onclick="submitForm()">
+        <span class="spinner" id="spinner"></span>Complete registration
+      </button>
+    </div>
+  </div>
+
+  <!-- Confirmation -->
+  <div id="confirmation">
+    <div style="font-size:3rem;margin-bottom:1rem;">🏕️</div>
+    <h2>You're registered!</h2>
+    <p>A confirmation has been sent to <strong id="conf-email"></strong>. We'll be in touch as the date gets closer.</p>
+    <div class="conf-box" style="text-align:left;margin-bottom:1.25rem;">
+      <div class="conf-row"><span>Lodging</span><strong id="conf-lodge">—</strong></div>
+      <div class="conf-row"><span>Campers</span><strong id="conf-campers">—</strong></div>
+      <div class="conf-row"><span>Total due</span><strong id="conf-total" style="color:var(--ember)">—</strong></div>
+      <div class="conf-row"><span>Payment method</span><strong id="conf-pay">—</strong></div>
+    </div>
+    <div id="pay-instructions"></div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">Glamp <em>Sierra</em></span>
+  August 6–9, 2026 · Camp Sierra · Big Creek, CA<br><br>
+  Questions? <a href="mailto:glampsierra@gmail.com">glampsierra@gmail.com</a>
+</footer>
+
+<script>
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xrevlkej';
+const VENMO_HANDLE  = '@MollyWedel';
+const ZELLE_EMAIL   = 'molly.wedel@gmail.com';
+const PAYPAL_ME     = 'MollyWedel';
+const LODGE_NAMES   = { dorm:'Dorm', duplex:'Duplex', kings:"King's Cabin" };
+const LODGE_PRICES  = { dorm:300, duplex:700, kings:850 };
+const LODGE_MAX     = { dorm:4, duplex:6, kings:4 };
+const LODGE_DETAILS = { dorm:'Up to 4 beds · shared lodge bathrooms', duplex:'Up to 6 beds · private entry & bath · mini-fridge', kings:'Up to 4 beds · kitchen, living room, private deck' };
+const PLAN_NAMES    = { full:'Full plan (w/ alcohol)', nona:'No-alcohol plan' };
+const PLAN_PRICES   = { full:250, nona:175 };
+const PLAN_LABELS   = { full:{icon:'🍷',short:'Full plan',detail:'All meals + alcohol'}, nona:{icon:'🥤',short:'No-alcohol',detail:'All meals, no alcohol'} };
+
+let state = { lodge:null, payment:null, mode:null };
+let campers = []; let camperIdSeq = 0;
+const fmt = n => '$' + n.toLocaleString();
+const el  = id => document.getElementById(id);
+
+function showStep(stepId) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const t = typeof stepId === 'number' ? el('step'+stepId) : el('step-'+stepId);
+  if (t) t.classList.add('active');
+  updateProgressFromStep(stepId);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateProgressFromStep(stepId) {
+  const isJoin = state.mode === 'join';
+  const pipMap = isJoin ? {0:0,'join':1,1:2,2:3,3:4} : {0:0,'new-lodge':1,1:2,2:3,3:4};
+  const active = pipMap[stepId] ?? 0;
+  for (let i=0;i<5;i++) { const p=el('pip'+i); if(p) p.className='pip'+(i<active?' done':i===active?' active':''); }
+}
+function selectMode(val,card) {
+  state.mode=val;
+  document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  el('modeError').style.display='none';
+}
+function goToFromMode() {
+  if (!state.mode) { el('modeError').style.display='block'; return; }
+  if (state.mode==='new') { showStep('new-lodge'); }
+  else { showStep('join'); }
+}
+function goToFromLodge() {
+  if (!state.lodge) { el('lodgeError').style.display='block'; return; }
+  el('label-campers').textContent='Step 3 of 5'; el('label-review').textContent='Step 4 of 5'; el('label-payment').textContent='Step 5 of 5';
+  el('heading-campers').textContent="Who's coming?";
+  el('subtext-campers').textContent='Fill in details for everyone sharing this room. Each person chooses their own meal plan.';
+  if (campers.length===0) addCamper();
+  showStep(1);
+}
+function goToFromJoin() {
+  const nameVal = el('joinName').value.trim();
+  if (!nameVal) { el('f-joinName').classList.add('error'); return; }
+  el('f-joinName').classList.remove('error');
+  el('label-campers').textContent='Step 3 of 4'; el('label-review').textContent='Step 3 of 4'; el('label-payment').textContent='Step 4 of 4';
+  el('heading-campers').textContent='Your details';
+  el('subtext-campers').textContent='Add yourself and anyone else joining this reservation. Each person chooses their own meal plan.';
+  if (campers.length===0) addCamper();
+  showStep(1);
+}
+function goBackFromCampers() { if (state.mode==='join') showStep('join'); else showStep('new-lodge'); }
+function goTo(n) {
+  if (n===2 && !validateCampers()) return;
+  if (n===3 && !validateReview()) return;
+  if (n===2) renderReview();
+  if (n===3) renderPayTotal();
+  showStep(n);
+}
+function validateCampers() {
+  if (campers.length===0) { el('campersError').textContent='Please add at least one camper.'; el('campersError').style.display='block'; return false; }
+  let ok=true;
+  campers.forEach(c => {
+    const fn=el('fn-'+c.id).value.trim(), ln=el('ln-'+c.id).value.trim(), em=el('em-'+c.id).value.trim();
+    if (!fn){el('f-fn-'+c.id).classList.add('error');ok=false;}else{el('f-fn-'+c.id).classList.remove('error');}
+    if (!ln){el('f-ln-'+c.id).classList.add('error');ok=false;}else{el('f-ln-'+c.id).classList.remove('error');}
+    if (!em||!em.includes('@')){el('f-em-'+c.id).classList.add('error');ok=false;}else{el('f-em-'+c.id).classList.remove('error');}
+    if (!c.plan){el('planErr-'+c.id).style.display='block';ok=false;}else{el('planErr-'+c.id).style.display='none';}
+  });
+  if (!ok) { el('campersError').textContent='Please complete required fields for all campers.'; el('campersError').style.display='block'; campers.forEach(c=>{const fn=el('fn-'+c.id).value.trim(),ln=el('ln-'+c.id).value.trim(),em=el('em-'+c.id).value.trim();if(!fn||!ln||!em||!c.plan)expandCamper(c.id);});}
+  else { el('campersError').style.display='none'; campers.forEach(c=>{c.firstName=el('fn-'+c.id).value.trim();c.lastName=el('ln-'+c.id).value.trim();c.email=el('em-'+c.id).value.trim();c.phone=el('ph-'+c.id).value.trim();c.dietary=el('dt-'+c.id).value.trim();c.notes=el('nt-'+c.id).value.trim();});}
+  return ok;
+}
+function validateReview() { return true; }
+function validatePayment() { const ok=!!state.payment; el('payError').style.display=ok?'none':'block'; return ok; }
+
+function selectLodge(val,card) {
+  state.lodge=val;
+  document.querySelectorAll('.lodge-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  el('lodgeError').style.display='none';
+  if (state.mode==='new') { const max=LODGE_MAX[val]; while(campers.length>max) removeCamper(campers[campers.length-1].id); }
+  updateAddBtn();
+}
+function addCamper() {
+  if (state.mode!=='join' && !state.lodge) return;
+  const max = state.mode==='join' ? 99 : LODGE_MAX[state.lodge];
+  if (campers.length>=max) return;
+  const id=++camperIdSeq; const isFirst=campers.length===0;
+  campers.push({id,firstName:'',lastName:'',email:'',phone:'',plan:null,dietary:'',notes:''});
+  renderCamperCard(id,isFirst); updateAddBtn();
+}
+function removeCamper(id) { campers=campers.filter(c=>c.id!==id); const card=el('camper-card-'+id); if(card) card.remove(); renumberCampers(); updateAddBtn(); }
+function renumberCampers() { campers.forEach((c,i)=>{ const t=el('camper-title-'+c.id); if(t) t.textContent=i===0?'Camper 1 (you)':'Camper '+(i+1); }); }
+function renderCamperCard(id,isFirst) {
+  const idx=campers.findIndex(c=>c.id===id);
+  const label=isFirst?'Camper 1 (you)':'Camper '+(idx+1);
+  const div=document.createElement('div'); div.className='camper-card'; div.id='camper-card-'+id;
+  div.innerHTML=`
+    <div class="camper-card-header" id="camper-header-${id}" onclick="toggleCamper(${id})">
+      <div><div class="camper-title" id="camper-title-${id}">${label}</div><div class="camper-subtitle" id="camper-subtitle-${id}">Click to expand</div></div>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        ${!isFirst?`<button class="remove-camper" onclick="event.stopPropagation();removeCamper(${id})">Remove</button>`:''}
+        <span class="toggle-icon">▾</span>
+      </div>
+    </div>
+    <div class="camper-card-body" id="camper-body-${id}">
+      <div class="row">
+        <div class="field" id="f-fn-${id}"><label>First name *</label><input type="text" id="fn-${id}" placeholder="Jane" oninput="updateCamperSubtitle(${id})"><div class="err-msg">Required.</div></div>
+        <div class="field" id="f-ln-${id}"><label>Last name *</label><input type="text" id="ln-${id}" placeholder="Smith" oninput="updateCamperSubtitle(${id})"><div class="err-msg">Required.</div></div>
+      </div>
+      <div class="field" id="f-em-${id}"><label>Email address *</label><input type="email" id="em-${id}" placeholder="jane@example.com"><div class="err-msg">Please enter a valid email.</div></div>
+      <div class="field"><label>Phone number</label><input type="tel" id="ph-${id}" placeholder="(555) 555-5555"></div>
+      <div style="margin-bottom:0.5rem;">
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;letter-spacing:0.03em;">Meal &amp; drink plan *</label>
+        <div class="mini-plan">
+          <label class="mini-plan-card" id="plan-full-${id}" onclick="setCamperPlan(${id},'full',this)"><input type="radio" name="plan-${id}" value="full"><div class="mini-plan-name">${PLAN_LABELS.full.icon} ${PLAN_LABELS.full.short}</div><div class="mini-plan-price">$${PLAN_PRICES.full} / person</div><div class="mini-plan-detail">${PLAN_LABELS.full.detail}</div></label>
+          <label class="mini-plan-card" id="plan-nona-${id}" onclick="setCamperPlan(${id},'nona',this)"><input type="radio" name="plan-${id}" value="nona"><div class="mini-plan-name">${PLAN_LABELS.nona.icon} ${PLAN_LABELS.nona.short}</div><div class="mini-plan-price">$${PLAN_PRICES.nona} / person</div><div class="mini-plan-detail">${PLAN_LABELS.nona.detail}</div></label>
+        </div>
+        <div id="planErr-${id}" style="font-size:0.75rem;color:var(--err);display:none;margin-top:-0.25rem;margin-bottom:0.5rem;">Please select a meal plan.</div>
+      </div>
+      <div class="field"><label>Dietary restrictions or allergies</label><textarea id="dt-${id}" placeholder="Vegetarian, gluten-free, nut allergy…"></textarea></div>
+      <div class="field"><label>Anything else we should know?</label><textarea id="nt-${id}" placeholder="Accessibility needs, excitement level…"></textarea></div>
+    </div>`;
+  el('campersContainer').appendChild(div);
+}
+function toggleCamper(id) { const body=el('camper-body-'+id),header=el('camper-header-'+id),isHidden=body.classList.contains('hidden'); body.classList.toggle('hidden',!isHidden); header.classList.toggle('collapsed',!isHidden); }
+function expandCamper(id) { el('camper-body-'+id).classList.remove('hidden'); el('camper-header-'+id).classList.remove('collapsed'); }
+function updateCamperSubtitle(id) { const fn=el('fn-'+id).value.trim(),ln=el('ln-'+id).value.trim(),sub=el('camper-subtitle-'+id); sub.textContent=(fn||ln)?(fn+' '+ln).trim():'Click to expand'; }
+function setCamperPlan(id,plan,card) { const c=campers.find(x=>x.id===id); if(c) c.plan=plan; el('plan-full-'+id).classList.remove('selected'); el('plan-nona-'+id).classList.remove('selected'); card.classList.add('selected'); el('planErr-'+id).style.display='none'; }
+function updateAddBtn() { if(state.mode==='join'){el('addCamperBtn').style.display='flex';el('roomFullMsg').style.display='none';return;} if(!state.lodge)return; const max=LODGE_MAX[state.lodge],full=campers.length>=max; el('addCamperBtn').style.display=full?'none':'flex'; el('roomFullMsg').style.display=full?'block':'none'; }
+
+function calcCamperMealCost(c) { return PLAN_PRICES[c.plan]||0; }
+function calcLodgeShare() { if(state.mode==='join'||!state.lodge||campers.length===0)return 0; return Math.round(LODGE_PRICES[state.lodge]/campers.length*100)/100; }
+function calcGrandTotal() { const meals=campers.reduce((s,c)=>s+calcCamperMealCost(c),0); if(state.mode==='join'||!state.lodge)return meals; return LODGE_PRICES[state.lodge]+meals; }
+function calcPersonTotal(c) { return calcLodgeShare()+calcCamperMealCost(c); }
+
+function camperDisplayNames(list) {
+  const firstNames=list.map(c=>(c.firstName||'').toLowerCase());
+  return list.map((c,i)=>{ const first=c.firstName||('Camper '+(i+1)); const isDupe=firstNames.filter(n=>n===first.toLowerCase()).length>1; return isDupe&&c.lastName?first+' '+c.lastName.charAt(0)+'.':first; });
+}
+
+function renderReview() {
+  campers.forEach(c=>{c.firstName=el('fn-'+c.id).value.trim();c.lastName=el('ln-'+c.id).value.trim();c.email=el('em-'+c.id).value.trim();c.phone=el('ph-'+c.id).value.trim();c.dietary=el('dt-'+c.id).value.trim();c.notes=el('nt-'+c.id).value.trim();});
+  const lodgeShare=calcLodgeShare(), grandTotal=calcGrandTotal(), isJoin=state.mode==='join';
+  if(isJoin){el('rev-lodge-heading').textContent='Joining reservation';el('rev-row-lodge').style.display='none';el('rev-row-cost').style.display='none';el('rev-row-share').style.display='none';el('rev-roommates-label').textContent='Reservation name';el('rev-row-roommates').style.display='flex';el('rev-roommates').textContent=el('joinName')?.value.trim()||'—';}
+  else{el('rev-lodge-heading').textContent='Lodging';el('rev-row-lodge').style.display='flex';el('rev-row-cost').style.display='flex';el('rev-row-share').style.display='flex';el('rev-roommates-label').textContent='Sharing with';el('rev-row-roommates').style.display='flex';el('rev-lodge').textContent=LODGE_NAMES[state.lodge]||'—';el('rev-room-cost').textContent=fmt(LODGE_PRICES[state.lodge]);el('rev-roommates').textContent=camperDisplayNames(campers).join(', ');el('rev-lodge-share').textContent=fmt(lodgeShare)+' / person ('+campers.length+' sharing)';}
+  const csEl=el('camperSummaries'); csEl.innerHTML='';
+  campers.forEach((c,i)=>{ const personTotal=calcPersonTotal(c),div=document.createElement('div'); div.className='camper-summary';
+    div.innerHTML=`<div class="cs-name">${c.firstName||'Camper '+(i+1)} ${c.lastName}</div><div class="cs-row"><span>Lodge share</span><strong>${fmt(lodgeShare)} <span style="font-weight:300;font-size:0.75rem;">(approx.)</span></strong></div><div class="cs-row"><span>Meal plan</span><strong>${PLAN_NAMES[c.plan]||'—'}</strong></div><div class="cs-row"><span>Meal plan cost</span><strong>${fmt(calcCamperMealCost(c))}</strong></div><div class="cs-row" style="border-top:1px solid #c8d8c9;margin-top:0.35rem;padding-top:0.35rem;font-weight:500;"><span style="color:var(--pine)">This person's total</span><strong style="color:var(--ember)">${fmt(personTotal)}</strong></div>${c.dietary?`<div class="cs-row"><span>Dietary</span><strong>${c.dietary}</strong></div>`:''}`;
+    csEl.appendChild(div);});
+  renderTotalBox(el('totalBox'),grandTotal);
+}
+function renderTotalBox(container,grandTotal) {
+  const isJoin=state.mode==='join'; let html='';
+  if(!isJoin&&state.lodge) html+=`<div class="trow"><span>${LODGE_NAMES[state.lodge]}</span><span class="tamount">${fmt(LODGE_PRICES[state.lodge])}</span></div>`;
+  campers.forEach((c,i)=>{ const firstName=c.firstName||('Camper '+(i+1)),planName=c.plan?PLAN_NAMES[c.plan]:'No plan selected',planCost=calcCamperMealCost(c); html+=`<div class="trow"><span>${firstName} — ${planName}</span><span class="tamount">${fmt(planCost)}</span></div>`;});
+  html+=`<div class="trow grand"><span>Total due</span><span class="tamount">${fmt(grandTotal)}</span></div>`;
+  container.innerHTML=html;
+}
+function renderPayTotal() { campers.forEach(c=>{c.firstName=el('fn-'+c.id)?.value.trim()||c.firstName;c.lastName=el('ln-'+c.id)?.value.trim()||c.lastName;c.email=el('em-'+c.id)?.value.trim()||c.email;}); renderTotalBox(el('payTotalBox'),calcGrandTotal()); }
+function selectPay(val,card) { state.payment=val; document.querySelectorAll('.pay-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); el('payError').style.display='none'; }
+
+async function submitForm() {
+  if (!validatePayment()) return;
+  const grandTotal=calcGrandTotal(), primaryCamper=campers[0];
+  const btn=el('submitBtn'),spin=el('spinner');
+  btn.disabled=true; spin.style.display='inline-block';
+  const camperDetails=campers.map((c,i)=>`Camper ${i+1}: ${c.firstName} ${c.lastName} | ${c.email}${c.phone?' | '+c.phone:''} | ${PLAN_NAMES[c.plan]}${c.dietary?' | Dietary: '+c.dietary:''}${c.notes?' | Notes: '+c.notes:''}`).join('\n');
+  const isJoin=state.mode==='join', joinName=isJoin?(el('joinName')?.value.trim()||''):'';
+  const payload={
+    _subject:isJoin?`🏕️ Glamp Sierra 2026 — Adding to reservation: ${joinName} (${primaryCamper.firstName} ${primaryCamper.lastName})`:`🏕️ Glamp Sierra 2026 — ${primaryCamper.firstName} ${primaryCamper.lastName} (${campers.length} camper${campers.length>1?'s':''})`,
+    _replyto:primaryCamper.email,
+    registration_type:isJoin?'Joining existing reservation':'New registration',
+    ...(isJoin?{joining_reservation:joinName}:{lodging:LODGE_NAMES[state.lodge]+` (${campers.length} sharing · ${fmt(calcLodgeShare())}/person)`}),
+    campers:camperDetails, total_due:fmt(grandTotal),
+    payment_method:{venmo:'Venmo',zelle:'Zelle',paypal:'PayPal (friends & family)',check:'Check at camp'}[state.payment],
+  };
+  try {
+    const res=await fetch(FORMSPREE_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
+    if(res.ok){showConfirmation(grandTotal);}else{alert('Something went wrong. Please email glampsierra@gmail.com directly.');btn.disabled=false;spin.style.display='none';}
+  } catch(e){showConfirmation(grandTotal);}
+}
+function showConfirmation(grandTotal) {
+  el('progressBar').style.display='none'; document.querySelectorAll('.step').forEach(s=>s.style.display='none');
+  el('confirmation').style.display='block';
+  const primary=campers[0], isJoin=state.mode==='join';
+  el('conf-email').textContent=primary.email;
+  el('conf-lodge').textContent=isJoin?'Joining reservation: '+(el('joinName')?.value.trim()||'—'):LODGE_NAMES[state.lodge]+' ('+campers.length+' sharing)';
+  el('conf-campers').textContent=campers.map(c=>c.firstName+' '+c.lastName).join(', ');
+  el('conf-total').textContent=fmt(grandTotal);
+  el('conf-pay').textContent={venmo:'Venmo',zelle:'Zelle',paypal:'PayPal (friends & family)',check:'Check at camp'}[state.payment];
+  const instrEl=el('pay-instructions');
+  if(state.payment==='venmo'){const venmoHandle=VENMO_HANDLE.startsWith('@')?VENMO_HANDLE:'@'+VENMO_HANDLE;instrEl.innerHTML=`<div class="check-instructions"><strong>Paying via Venmo:</strong><br><br>Open Venmo and search for <strong style="color:var(--pine);font-size:1.05rem;">${venmoHandle}</strong><br>Send <strong>${fmt(grandTotal)}</strong> and include <em>${primary.firstName} ${primary.lastName} – Glamp Sierra 2026</em> in the note.</div>`;}
+  else if(state.payment==='zelle'){instrEl.innerHTML=`<div class="check-instructions"><strong>Paying by Zelle:</strong><br>Open your bank's app and send <strong>${fmt(grandTotal)}</strong> to <strong>${ZELLE_EMAIL}</strong>.<br>Include <em>Glamp Sierra 2026 – ${primary.firstName} ${primary.lastName}</em> in the memo.</div>`;}
+  else if(state.payment==='paypal'){instrEl.innerHTML=`<p style="margin-bottom:0.5rem;">Send as <strong>friends &amp; family</strong> — no fees that way:</p><a href="https://paypal.me/${PAYPAL_ME}/${grandTotal}" class="pay-action-btn paypal-btn" target="_blank">Pay ${fmt(grandTotal)} on PayPal →</a><p style="font-size:0.75rem;color:#8a9e8b;margin-top:0.6rem;">Choose "friends &amp; family" and include your name in the note.</p>`;}
+  else{instrEl.innerHTML=`<div class="check-instructions"><strong>Paying by check at camp:</strong><br>Please make your check payable to <strong>Glamp Sierra</strong> and bring it when you arrive. Amount due: <strong>${fmt(grandTotal)}</strong>.</div>`;}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  const lodgeGrid=el('lodgeGrid');
+  Object.keys(LODGE_NAMES).forEach(key=>{
+    const label=document.createElement('label');
+    label.className='lodge-card'; label.id='card-'+key;
+    label.setAttribute('onclick',`selectLodge('${key}',this)`);
+    label.innerHTML=`<input type="radio" name="lodge" value="${key}"><div class="lodge-name">${LODGE_NAMES[key]}</div><div class="lodge-price">$${LODGE_PRICES[key]}<span style="font-size:0.7rem;font-weight:300">/room</span></div><div class="lodge-detail">${LODGE_DETAILS[key]||''}</div>`;
+    lodgeGrid.appendChild(label);
+  });
+  const nextBtn=document.querySelector('[onclick="goToFromLodge()"]');
+  if(nextBtn){nextBtn.addEventListener('click',()=>{setTimeout(()=>{if(campers.length===0&&state.lodge)addCamper();},50);},{capture:true});}
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{a.addEventListener('click',()=>document.querySelector('.nav-links').classList.remove('open'));});
+</script>
+</body>
+</html>
