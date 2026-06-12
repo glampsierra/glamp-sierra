@@ -460,7 +460,7 @@ function renderCamperCard(id,isFirst) {
       <div class="field" id="f-em-${id}"><label>Email address *</label><input type="email" id="em-${id}" placeholder="jane@example.com"><div class="err-msg">Please enter a valid email.</div></div>
       <div class="field"><label>Phone number</label><input type="tel" id="ph-${id}" placeholder="(555) 555-5555"></div>
       <div style="margin-bottom:0.5rem;">
-        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;letter-spacing:0.03em;">Meal &amp; drink plan *</label>
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;letter-spacing:0.03em;">Beverage plan *</label>
         <div class="mini-plan">
           <label class="mini-plan-card" id="plan-full-${id}" onclick="setCamperPlan(${id},'full',this)"><input type="radio" name="plan-${id}" value="full"><div class="mini-plan-name">${PLAN_LABELS.full.icon} ${PLAN_LABELS.full.short}</div><div class="mini-plan-price">$${PLAN_PRICES.full} / person</div><div class="mini-plan-detail">${PLAN_LABELS.full.detail}</div></label>
           <label class="mini-plan-card" id="plan-nona-${id}" onclick="setCamperPlan(${id},'nona',this)"><input type="radio" name="plan-${id}" value="nona"><div class="mini-plan-name">${PLAN_LABELS.nona.icon} ${PLAN_LABELS.nona.short}</div><div class="mini-plan-price">$${PLAN_PRICES.nona} / person</div><div class="mini-plan-detail">${PLAN_LABELS.nona.detail}</div></label>
