@@ -83,6 +83,8 @@
   .remove-camper { background: none; border: none; color: #b04040; font-size: 0.78rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 5px; }
   .remove-camper:hover { background: #fde8e8; }
   .mini-plan { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+  .mini-plan-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+  @media (max-width: 480px) { .mini-plan-3 { grid-template-columns: 1fr; } }
   .mini-plan-card { border: 1.5px solid #d4dfd5; border-radius: 8px; padding: 0.75rem 0.85rem; cursor: pointer; transition: all 0.2s; position: relative; font-size: 0.85rem; }
   .mini-plan-card:hover { border-color: var(--sage); background: var(--mist); }
   .mini-plan-card.selected { border-color: var(--pine); background: var(--mist); }
@@ -239,7 +241,7 @@
     <p style="font-size:0.85rem;color:var(--bark);margin-bottom:1.25rem;line-height:1.6;">Let us know the name on the reservation so we can add you to the right room. If you're not sure, just put your friend's name.</p>
     <div class="field" id="f-joinName">
       <label>Name on the reservation *</label>
-      <input type="text" id="joinName" placeholder="e.g. Jane Smith">
+      <input type="text" id="joinName" placeholder="e.g. Smokey Bear">
       <div class="err-msg">Please enter the reservation name.</div>
     </div>
     <div class="btn-row">
@@ -346,9 +348,21 @@ const LODGE_NAMES   = { dorm:'Dorm', duplex:'Duplex', kings:"King's Cabin" };
 const LODGE_PRICES  = { dorm:300, duplex:700, kings:850 };
 const LODGE_MAX     = { dorm:4, duplex:6, kings:4 };
 const LODGE_DETAILS = { dorm:'Up to 4 beds · shared lodge bathrooms', duplex:'Up to 6 beds · private entry & bath · mini-fridge', kings:'Up to 4 beds · kitchen, living room, private deck' };
-const PLAN_NAMES    = { full:'Full beverage plan', nona:'Non-alcoholic beverage plan' };
-const PLAN_PRICES   = { full:250, nona:175 };
-const PLAN_LABELS   = { full:{icon:'🍷',short:'Full beverage',detail:'All meals + alcohol'}, nona:{icon:'🥤',short:'Non-alcohol',detail:'All meals, no alcohol'} };
+const PLAN_NAMES    = {
+  full:  'Full camp plan',
+  nona:  'Non-alcoholic camp plan',
+  kid:   'Kids camp plan (ages 4–12)',
+  teen:  'Teen camp plan (ages 13+)',
+  free:  'Little ones (under 4, free)',
+};
+const PLAN_PRICES   = { full:250, nona:175, kid:125, teen:175, free:0 };
+const PLAN_LABELS   = {
+  full: {icon:'', short:'Full camp plan',    detail:'All meals + open bar'},
+  nona: {icon:'', short:'Non-alcoholic',     detail:'All meals, no alcohol'},
+  kid:  {icon:'', short:'Kids (ages 4–12)',  detail:'All meals, no alcohol · $125'},
+  teen: {icon:'', short:'Teen (ages 13+)',   detail:'All meals, no alcohol · $175'},
+  free: {icon:'', short:'Little ones (0–3)', detail:'Free · under 4 years old'},
+};
 
 let state = { lodge:null, payment:null, mode:null };
 let campers = []; let camperIdSeq = 0;
@@ -383,7 +397,7 @@ function goToFromLodge() {
   if (!state.lodge) { el('lodgeError').style.display='block'; return; }
   el('label-campers').textContent='Step 3 of 5'; el('label-review').textContent='Step 4 of 5'; el('label-payment').textContent='Step 5 of 5';
   el('heading-campers').textContent="Who's coming?";
-  el('subtext-campers').textContent='Fill in details for everyone sharing this room. Each person chooses their own meal plan.';
+  el('subtext-campers').textContent='Fill in details for everyone sharing this room. Each person chooses their own camp plan.';
   if (campers.length===0) addCamper();
   showStep(1);
 }
@@ -393,7 +407,7 @@ function goToFromJoin() {
   el('f-joinName').classList.remove('error');
   el('label-campers').textContent='Step 3 of 4'; el('label-review').textContent='Step 3 of 4'; el('label-payment').textContent='Step 4 of 4';
   el('heading-campers').textContent='Your details';
-  el('subtext-campers').textContent='Add yourself and anyone else joining this reservation. Each person chooses their own meal plan.';
+  el('subtext-campers').textContent='Add yourself and anyone else joining this reservation. Each person chooses their own camp plan.';
   if (campers.length===0) addCamper();
   showStep(1);
 }
@@ -409,14 +423,18 @@ function validateCampers() {
   if (campers.length===0) { el('campersError').textContent='Please add at least one camper.'; el('campersError').style.display='block'; return false; }
   let ok=true;
   campers.forEach(c => {
-    const fn=el('fn-'+c.id).value.trim(), ln=el('ln-'+c.id).value.trim(), em=el('em-'+c.id).value.trim();
+    const fn=el('fn-'+c.id).value.trim(), ln=el('ln-'+c.id).value.trim();
+    const emField=el('em-'+c.id); const em=emField?emField.value.trim():'';
     if (!fn){el('f-fn-'+c.id).classList.add('error');ok=false;}else{el('f-fn-'+c.id).classList.remove('error');}
     if (!ln){el('f-ln-'+c.id).classList.add('error');ok=false;}else{el('f-ln-'+c.id).classList.remove('error');}
-    if (!em||!em.includes('@')){el('f-em-'+c.id).classList.add('error');ok=false;}else{el('f-em-'+c.id).classList.remove('error');}
+    // Only validate email for adults (non-kids)
+    if (!c.isKid) {
+      if (!em||!em.includes('@')){el('f-em-'+c.id).classList.add('error');ok=false;}else{el('f-em-'+c.id).classList.remove('error');}
+    }
     if (!c.plan){el('planErr-'+c.id).style.display='block';ok=false;}else{el('planErr-'+c.id).style.display='none';}
   });
-  if (!ok) { el('campersError').textContent='Please complete required fields for all campers.'; el('campersError').style.display='block'; campers.forEach(c=>{const fn=el('fn-'+c.id).value.trim(),ln=el('ln-'+c.id).value.trim(),em=el('em-'+c.id).value.trim();if(!fn||!ln||!em||!c.plan)expandCamper(c.id);});}
-  else { el('campersError').style.display='none'; campers.forEach(c=>{c.firstName=el('fn-'+c.id).value.trim();c.lastName=el('ln-'+c.id).value.trim();c.email=el('em-'+c.id).value.trim();c.phone=el('ph-'+c.id).value.trim();c.dietary=el('dt-'+c.id).value.trim();c.notes=el('nt-'+c.id).value.trim();});}
+  if (!ok) { el('campersError').textContent='Please complete required fields for all campers.'; el('campersError').style.display='block'; campers.forEach(c=>{const fn=el('fn-'+c.id).value.trim(),ln=el('ln-'+c.id).value.trim();const emField=el('em-'+c.id);const em=emField?emField.value.trim():'';if(!fn||!ln||(!c.isKid&&!em)||!c.plan)expandCamper(c.id);});}
+  else { el('campersError').style.display='none'; campers.forEach(c=>{c.firstName=el('fn-'+c.id).value.trim();c.lastName=el('ln-'+c.id).value.trim();const emField=el('em-'+c.id);c.email=emField?emField.value.trim():'';c.phone=el('ph-'+c.id)?el('ph-'+c.id).value.trim():'';c.dietary=el('dt-'+c.id).value.trim();c.notes=el('nt-'+c.id).value.trim();});}
   return ok;
 }
 function validateReview() { return true; }
@@ -435,11 +453,32 @@ function addCamper() {
   const max = state.mode==='join' ? 99 : LODGE_MAX[state.lodge];
   if (campers.length>=max) return;
   const id=++camperIdSeq; const isFirst=campers.length===0;
-  campers.push({id,firstName:'',lastName:'',email:'',phone:'',plan:null,dietary:'',notes:''});
+  campers.push({id,firstName:'',lastName:'',email:'',phone:'',plan:null,isKid:false,dietary:'',notes:''});
   renderCamperCard(id,isFirst); updateAddBtn();
 }
 function removeCamper(id) { campers=campers.filter(c=>c.id!==id); const card=el('camper-card-'+id); if(card) card.remove(); renumberCampers(); updateAddBtn(); }
 function renumberCampers() { campers.forEach((c,i)=>{ const t=el('camper-title-'+c.id); if(t) t.textContent=i===0?'Camper 1 (you)':'Camper '+(i+1); }); }
+function setGuestType(id, isKid) {
+  const c = campers.find(x=>x.id===id);
+  if(c) { c.isKid=isKid; c.plan=null; }
+  // Toggle adult/kid button styles
+  el('type-adult-'+id).classList.toggle('selected', !isKid);
+  el('type-kid-'+id).classList.toggle('selected', isKid);
+  // Show/hide email field
+  const emWrap = el('em-wrap-'+id);
+  if(emWrap) emWrap.style.display = isKid ? 'none' : 'block';
+  // Show/hide phone field
+  const phWrap = el('ph-wrap-'+id);
+  if(phWrap) phWrap.style.display = isKid ? 'none' : 'block';
+  // Show correct plan options
+  el('plans-adult-'+id).style.display = isKid ? 'none' : 'grid';
+  el('plans-kid-'+id).style.display   = isKid ? 'grid' : 'none';
+  // Clear plan selection visually
+  ['full','nona','kid','teen','free'].forEach(p=>{
+    const pl=el('plan-'+p+'-'+id); if(pl) pl.classList.remove('selected');
+  });
+}
+
 function renderCamperCard(id,isFirst) {
   const idx=campers.findIndex(c=>c.id===id);
   const label=isFirst?'Camper 1 (you)':'Camper '+(idx+1);
@@ -453,19 +492,45 @@ function renderCamperCard(id,isFirst) {
       </div>
     </div>
     <div class="camper-card-body" id="camper-body-${id}">
-      <div class="row">
-        <div class="field" id="f-fn-${id}"><label>First name *</label><input type="text" id="fn-${id}" placeholder="Jane" oninput="updateCamperSubtitle(${id})"><div class="err-msg">Required.</div></div>
-        <div class="field" id="f-ln-${id}"><label>Last name *</label><input type="text" id="ln-${id}" placeholder="Smith" oninput="updateCamperSubtitle(${id})"><div class="err-msg">Required.</div></div>
+
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;letter-spacing:0.03em;">Guest type</label>
+        <div style="display:flex;gap:0.5rem;">
+          <label class="mini-plan-card selected" id="type-adult-${id}" onclick="setGuestType(${id},false)" style="flex:1;text-align:center;cursor:pointer;">
+            <div class="mini-plan-name">Adult</div>
+          </label>
+          <label class="mini-plan-card" id="type-kid-${id}" onclick="setGuestType(${id},true)" style="flex:1;text-align:center;cursor:pointer;">
+            <div class="mini-plan-name">Child</div>
+          </label>
+        </div>
       </div>
-      <div class="field" id="f-em-${id}"><label>Email address *</label><input type="email" id="em-${id}" placeholder="jane@example.com"><div class="err-msg">Please enter a valid email.</div></div>
-      <div class="field"><label>Phone number</label><input type="tel" id="ph-${id}" placeholder="(555) 555-5555"></div>
+
+      <div class="row">
+        <div class="field" id="f-fn-${id}"><label>First name *</label><input type="text" id="fn-${id}" placeholder="Smokey" oninput="updateCamperSubtitle(${id})"><div class="err-msg">Required.</div></div>
+        <div class="field" id="f-ln-${id}"><label>Last name *</label><input type="text" id="ln-${id}" placeholder="Bear" oninput="updateCamperSubtitle(${id})"><div class="err-msg">Required.</div></div>
+      </div>
+      <div class="field" id="em-wrap-${id}">
+        <div id="f-em-${id}" class="field" style="margin-bottom:0;"><label>Email address *</label><input type="email" id="em-${id}" placeholder="smokey.bear@example.com"><div class="err-msg">Please enter a valid email.</div></div>
+      </div>
+      <div id="ph-wrap-${id}" class="field"><label>Phone number</label><input type="tel" id="ph-${id}" placeholder="(555) 555-5555"></div>
+
       <div style="margin-bottom:0.5rem;">
-        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;letter-spacing:0.03em;">Beverage plan *</label>
-        <div class="mini-plan">
+        <label style="display:block;font-size:0.8rem;font-weight:500;color:var(--bark);margin-bottom:0.5rem;letter-spacing:0.03em;">Camp plan *</label>
+
+        <!-- Adult plans -->
+        <div class="mini-plan" id="plans-adult-${id}" style="display:flex;">
           <label class="mini-plan-card" id="plan-full-${id}" onclick="setCamperPlan(${id},'full',this)"><input type="radio" name="plan-${id}" value="full"><div class="mini-plan-name">${PLAN_LABELS.full.icon} ${PLAN_LABELS.full.short}</div><div class="mini-plan-price">$${PLAN_PRICES.full} / person</div><div class="mini-plan-detail">${PLAN_LABELS.full.detail}</div></label>
           <label class="mini-plan-card" id="plan-nona-${id}" onclick="setCamperPlan(${id},'nona',this)"><input type="radio" name="plan-${id}" value="nona"><div class="mini-plan-name">${PLAN_LABELS.nona.icon} ${PLAN_LABELS.nona.short}</div><div class="mini-plan-price">$${PLAN_PRICES.nona} / person</div><div class="mini-plan-detail">${PLAN_LABELS.nona.detail}</div></label>
         </div>
-        <div id="planErr-${id}" style="font-size:0.75rem;color:var(--err);display:none;margin-top:-0.25rem;margin-bottom:0.5rem;">Please select a meal plan.</div>
+
+        <!-- Kid plans -->
+        <div class="mini-plan-3" style="display:none;" id="plans-kid-${id}">
+          <label class="mini-plan-card" id="plan-free-${id}" onclick="setCamperPlan(${id},'free',this)"><input type="radio" name="plan-${id}" value="free"><div class="mini-plan-name">${PLAN_LABELS.free.short}</div><div class="mini-plan-price">Free</div><div class="mini-plan-detail">${PLAN_LABELS.free.detail}</div></label>
+          <label class="mini-plan-card" id="plan-kid-${id}" onclick="setCamperPlan(${id},'kid',this)"><input type="radio" name="plan-${id}" value="kid"><div class="mini-plan-name">${PLAN_LABELS.kid.short}</div><div class="mini-plan-price">$${PLAN_PRICES.kid} / person</div><div class="mini-plan-detail">${PLAN_LABELS.kid.detail}</div></label>
+          <label class="mini-plan-card" id="plan-teen-${id}" onclick="setCamperPlan(${id},'teen',this)"><input type="radio" name="plan-${id}" value="teen"><div class="mini-plan-name">${PLAN_LABELS.teen.short}</div><div class="mini-plan-price">$${PLAN_PRICES.teen} / person</div><div class="mini-plan-detail">${PLAN_LABELS.teen.detail}</div></label>
+        </div>
+
+        <div id="planErr-${id}" style="font-size:0.75rem;color:var(--err);display:none;margin-top:0.25rem;margin-bottom:0.5rem;">Please select a camp plan.</div>
       </div>
       <div class="field"><label>Dietary restrictions or allergies</label><textarea id="dt-${id}" placeholder="Vegetarian, gluten-free, nut allergy…"></textarea></div>
       <div class="field"><label>Anything else we should know?</label><textarea id="nt-${id}" placeholder="Accessibility needs, excitement level…"></textarea></div>
@@ -475,7 +540,17 @@ function renderCamperCard(id,isFirst) {
 function toggleCamper(id) { const body=el('camper-body-'+id),header=el('camper-header-'+id),isHidden=body.classList.contains('hidden'); body.classList.toggle('hidden',!isHidden); header.classList.toggle('collapsed',!isHidden); }
 function expandCamper(id) { el('camper-body-'+id).classList.remove('hidden'); el('camper-header-'+id).classList.remove('collapsed'); }
 function updateCamperSubtitle(id) { const fn=el('fn-'+id).value.trim(),ln=el('ln-'+id).value.trim(),sub=el('camper-subtitle-'+id); sub.textContent=(fn||ln)?(fn+' '+ln).trim():'Click to expand'; }
-function setCamperPlan(id,plan,card) { const c=campers.find(x=>x.id===id); if(c) c.plan=plan; el('plan-full-'+id).classList.remove('selected'); el('plan-nona-'+id).classList.remove('selected'); card.classList.add('selected'); el('planErr-'+id).style.display='none'; }
+function setCamperPlan(id,plan,card) {
+  const c=campers.find(x=>x.id===id);
+  if(c) c.plan=plan;
+  // Clear all plan cards for this camper
+  ['full','nona','kid','teen','free'].forEach(p=>{
+    const el2=el('plan-'+p+'-'+id);
+    if(el2) el2.classList.remove('selected');
+  });
+  card.classList.add('selected');
+  el('planErr-'+id).style.display='none';
+}
 function updateAddBtn() { if(state.mode==='join'){el('addCamperBtn').style.display='flex';el('roomFullMsg').style.display='none';return;} if(!state.lodge)return; const max=LODGE_MAX[state.lodge],full=campers.length>=max; el('addCamperBtn').style.display=full?'none':'flex'; el('roomFullMsg').style.display=full?'block':'none'; }
 
 function calcCamperMealCost(c) { return PLAN_PRICES[c.plan]||0; }
@@ -489,24 +564,31 @@ function camperDisplayNames(list) {
 }
 
 function renderReview() {
-  campers.forEach(c=>{c.firstName=el('fn-'+c.id).value.trim();c.lastName=el('ln-'+c.id).value.trim();c.email=el('em-'+c.id).value.trim();c.phone=el('ph-'+c.id).value.trim();c.dietary=el('dt-'+c.id).value.trim();c.notes=el('nt-'+c.id).value.trim();});
+  campers.forEach(c=>{
+    c.firstName=el('fn-'+c.id).value.trim();
+    c.lastName=el('ln-'+c.id).value.trim();
+    const emField=el('em-'+c.id); c.email=emField?emField.value.trim():'';
+    const phField=el('ph-'+c.id); c.phone=phField?phField.value.trim():'';
+    c.dietary=el('dt-'+c.id).value.trim();
+    c.notes=el('nt-'+c.id).value.trim();
+  });
   const lodgeShare=calcLodgeShare(), grandTotal=calcGrandTotal(), isJoin=state.mode==='join';
   if(isJoin){el('rev-lodge-heading').textContent='Joining reservation';el('rev-row-lodge').style.display='none';el('rev-row-cost').style.display='none';el('rev-row-share').style.display='none';el('rev-roommates-label').textContent='Reservation name';el('rev-row-roommates').style.display='flex';el('rev-roommates').textContent=el('joinName')?.value.trim()||'—';}
   else{el('rev-lodge-heading').textContent='Lodging';el('rev-row-lodge').style.display='flex';el('rev-row-cost').style.display='flex';el('rev-row-share').style.display='flex';el('rev-roommates-label').textContent='Sharing with';el('rev-row-roommates').style.display='flex';el('rev-lodge').textContent=LODGE_NAMES[state.lodge]||'—';el('rev-room-cost').textContent=fmt(LODGE_PRICES[state.lodge]);el('rev-roommates').textContent=camperDisplayNames(campers).join(', ');el('rev-lodge-share').textContent=fmt(lodgeShare)+' / person ('+campers.length+' sharing)';}
   const csEl=el('camperSummaries'); csEl.innerHTML='';
   campers.forEach((c,i)=>{ const personTotal=calcPersonTotal(c),div=document.createElement('div'); div.className='camper-summary';
-    div.innerHTML=`<div class="cs-name">${c.firstName||'Camper '+(i+1)} ${c.lastName}</div><div class="cs-row"><span>Lodge share</span><strong>${fmt(lodgeShare)} <span style="font-weight:300;font-size:0.75rem;">(approx.)</span></strong></div><div class="cs-row"><span>Meal plan</span><strong>${PLAN_NAMES[c.plan]||'—'}</strong></div><div class="cs-row"><span>Meal plan cost</span><strong>${fmt(calcCamperMealCost(c))}</strong></div><div class="cs-row" style="border-top:1px solid #c8d8c9;margin-top:0.35rem;padding-top:0.35rem;font-weight:500;"><span style="color:var(--pine)">This person's total</span><strong style="color:var(--ember)">${fmt(personTotal)}</strong></div>${c.dietary?`<div class="cs-row"><span>Dietary</span><strong>${c.dietary}</strong></div>`:''}`;
+    div.innerHTML=`<div class="cs-name">${c.firstName||'Camper '+(i+1)} ${c.lastName}</div><div class="cs-row"><span>Lodge share</span><strong>${fmt(lodgeShare)} <span style="font-weight:300;font-size:0.75rem;">(approx.)</span></strong></div><div class="cs-row"><span>Camp plan</span><strong>${PLAN_NAMES[c.plan]||'—'}</strong></div><div class="cs-row"><span>Camp plan cost</span><strong>${fmt(calcCamperMealCost(c))}</strong></div><div class="cs-row" style="border-top:1px solid #c8d8c9;margin-top:0.35rem;padding-top:0.35rem;font-weight:500;"><span style="color:var(--pine)">This person's total</span><strong style="color:var(--ember)">${fmt(personTotal)}</strong></div>${c.dietary?`<div class="cs-row"><span>Dietary</span><strong>${c.dietary}</strong></div>`:''}`;
     csEl.appendChild(div);});
   renderTotalBox(el('totalBox'),grandTotal);
 }
 function renderTotalBox(container,grandTotal) {
   const isJoin=state.mode==='join'; let html='';
   if(!isJoin&&state.lodge) html+=`<div class="trow"><span>${LODGE_NAMES[state.lodge]}</span><span class="tamount">${fmt(LODGE_PRICES[state.lodge])}</span></div>`;
-  campers.forEach((c,i)=>{ const firstName=c.firstName||('Camper '+(i+1)),planName=c.plan?PLAN_NAMES[c.plan]:'No plan selected',planCost=calcCamperMealCost(c); html+=`<div class="trow"><span>${firstName} — ${planName}</span><span class="tamount">${fmt(planCost)}</span></div>`;});
+  campers.forEach((c,i)=>{ const firstName=c.firstName||('Camper '+(i+1)),planName=c.plan?PLAN_NAMES[c.plan]:'No plan selected',planCost=calcCamperMealCost(c); html+=`<div class="trow"><span>${firstName} — ${planName}</span><span class="tamount">${planCost===0?'Free':fmt(planCost)}</span></div>`;});
   html+=`<div class="trow grand"><span>Total due</span><span class="tamount">${fmt(grandTotal)}</span></div>`;
   container.innerHTML=html;
 }
-function renderPayTotal() { campers.forEach(c=>{c.firstName=el('fn-'+c.id)?.value.trim()||c.firstName;c.lastName=el('ln-'+c.id)?.value.trim()||c.lastName;c.email=el('em-'+c.id)?.value.trim()||c.email;}); renderTotalBox(el('payTotalBox'),calcGrandTotal()); }
+function renderPayTotal() { campers.forEach(c=>{c.firstName=el('fn-'+c.id)?.value.trim()||c.firstName;c.lastName=el('ln-'+c.id)?.value.trim()||c.lastName;const emF=el('em-'+c.id);c.email=emF?emF.value.trim():c.email;}); renderTotalBox(el('payTotalBox'),calcGrandTotal()); }
 function selectPay(val,card) { state.payment=val; document.querySelectorAll('.pay-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); el('payError').style.display='none'; }
 
 async function submitForm() {
@@ -518,7 +600,7 @@ async function submitForm() {
   const isJoin=state.mode==='join', joinName=isJoin?(el('joinName')?.value.trim()||''):'';
   const payload={
     _subject:isJoin?`🏕️ Glamp Sierra 2026 — Adding to reservation: ${joinName} (${primaryCamper.firstName} ${primaryCamper.lastName})`:`🏕️ Glamp Sierra 2026 — ${primaryCamper.firstName} ${primaryCamper.lastName} (${campers.length} camper${campers.length>1?'s':''})`,
-    _replyto:primaryCamper.email,
+    _replyto:primaryCamper.email||'glampsierra@gmail.com',
     registration_type:isJoin?'Joining existing reservation':'New registration',
     ...(isJoin?{joining_reservation:joinName}:{lodging:LODGE_NAMES[state.lodge]+` (${campers.length} sharing · ${fmt(calcLodgeShare())}/person)`}),
     campers:camperDetails, total_due:fmt(grandTotal),
@@ -533,7 +615,7 @@ function showConfirmation(grandTotal) {
   el('progressBar').style.display='none'; document.querySelectorAll('.step').forEach(s=>s.style.display='none');
   el('confirmation').style.display='block';
   const primary=campers[0], isJoin=state.mode==='join';
-  el('conf-email').textContent=primary.email;
+  el('conf-email').textContent=primary.email||'(no email provided)';
   el('conf-lodge').textContent=isJoin?'Joining reservation: '+(el('joinName')?.value.trim()||'—'):LODGE_NAMES[state.lodge]+' ('+campers.length+' sharing)';
   el('conf-campers').textContent=campers.map(c=>c.firstName+' '+c.lastName).join(', ');
   el('conf-total').textContent=fmt(grandTotal);
