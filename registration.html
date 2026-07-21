@@ -344,10 +344,16 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xrevlkej';
 const VENMO_HANDLE  = '@MollyWedel';
 const ZELLE_EMAIL   = 'molly.wedel@gmail.com';
 const PAYPAL_ME     = 'MollyWedel';
-const LODGE_NAMES   = { dorm:'Dorm', duplex:'Duplex', kings:"King's Cabin" };
-const LODGE_PRICES  = { dorm:300, duplex:700, kings:850 };
-const LODGE_MAX     = { dorm:4, duplex:6, kings:4 };
-const LODGE_DETAILS = { dorm:'Up to 4 beds · shared lodge bathrooms', duplex:'Up to 6 beds · private entry & bath · mini-fridge', kings:'Up to 4 beds · kitchen, living room, private deck' };
+const LODGE_NAMES   = { dorm:'Dorm', duplex:'Duplex', tent:'Tent camping', kings:"King's Cabin (sold out)" };
+const LODGE_PRICES  = { dorm:300, duplex:700, tent:50, kings:850 };
+const LODGE_MAX     = { dorm:4, duplex:6, tent:99, kings:4 };
+const LODGE_DETAILS = {
+  dorm:   'Up to 4 beds · shared lodge bathrooms · bring your own bedding',
+  duplex: 'Up to 6 beds · private entry & bath · mini-fridge · only 3 left!',
+  tent:   'Bring your own tent · access to shared lodge bathrooms · $50/tent',
+  kings:  "SOLD OUT — full cabin · kitchen, living room, private deck",
+};
+const LODGE_SOLD_OUT = { kings: true };
 const PLAN_NAMES    = {
   full:  'Full camp plan',
   nona:  'Non-alcoholic camp plan',
@@ -554,8 +560,16 @@ function setCamperPlan(id,plan,card) {
 function updateAddBtn() { if(state.mode==='join'){el('addCamperBtn').style.display='flex';el('roomFullMsg').style.display='none';return;} if(!state.lodge)return; const max=LODGE_MAX[state.lodge],full=campers.length>=max; el('addCamperBtn').style.display=full?'none':'flex'; el('roomFullMsg').style.display=full?'block':'none'; }
 
 function calcCamperMealCost(c) { return PLAN_PRICES[c.plan]||0; }
-function calcLodgeShare() { if(state.mode==='join'||!state.lodge||campers.length===0)return 0; return Math.round(LODGE_PRICES[state.lodge]/campers.length*100)/100; }
-function calcGrandTotal() { const meals=campers.reduce((s,c)=>s+calcCamperMealCost(c),0); if(state.mode==='join'||!state.lodge)return meals; return LODGE_PRICES[state.lodge]+meals; }
+function calcLodgeShare() {
+  if(state.mode==='join'||!state.lodge||campers.length===0)return 0;
+  if(state.lodge==='tent') return LODGE_PRICES.tent; // flat fee per tent
+  return Math.round(LODGE_PRICES[state.lodge]/campers.length*100)/100;
+}
+function calcGrandTotal() {
+  const meals=campers.reduce((s,c)=>s+calcCamperMealCost(c),0);
+  if(state.mode==='join'||!state.lodge)return meals;
+  return LODGE_PRICES[state.lodge]+meals; // tent is flat $50 regardless of people
+}
 function calcPersonTotal(c) { return calcLodgeShare()+calcCamperMealCost(c); }
 
 function camperDisplayNames(list) {
@@ -583,7 +597,13 @@ function renderReview() {
 }
 function renderTotalBox(container,grandTotal) {
   const isJoin=state.mode==='join'; let html='';
-  if(!isJoin&&state.lodge) html+=`<div class="trow"><span>${LODGE_NAMES[state.lodge]}</span><span class="tamount">${fmt(LODGE_PRICES[state.lodge])}</span></div>`;
+  if(!isJoin&&state.lodge) {
+    if(state.lodge==='tent') {
+      html+=`<div class="trow"><span>Tent camping (flat fee)</span><span class="tamount">${fmt(LODGE_PRICES.tent)}</span></div>`;
+    } else {
+      html+=`<div class="trow"><span>${LODGE_NAMES[state.lodge]}</span><span class="tamount">${fmt(LODGE_PRICES[state.lodge])}</span></div>`;
+    }
+  }
   campers.forEach((c,i)=>{ const firstName=c.firstName||('Camper '+(i+1)),planName=c.plan?PLAN_NAMES[c.plan]:'No plan selected',planCost=calcCamperMealCost(c); html+=`<div class="trow"><span>${firstName} — ${planName}</span><span class="tamount">${planCost===0?'Free':fmt(planCost)}</span></div>`;});
   html+=`<div class="trow grand"><span>Total due</span><span class="tamount">${fmt(grandTotal)}</span></div>`;
   container.innerHTML=html;
@@ -631,10 +651,28 @@ function showConfirmation(grandTotal) {
 document.addEventListener('DOMContentLoaded',function(){
   const lodgeGrid=el('lodgeGrid');
   Object.keys(LODGE_NAMES).forEach(key=>{
+    const isSoldOut = !!(LODGE_SOLD_OUT && LODGE_SOLD_OUT[key]);
+    const isTent = key === 'tent';
     const label=document.createElement('label');
     label.className='lodge-card'; label.id='card-'+key;
-    label.setAttribute('onclick',`selectLodge('${key}',this)`);
-    label.innerHTML=`<input type="radio" name="lodge" value="${key}"><div class="lodge-name">${LODGE_NAMES[key]}</div><div class="lodge-price">$${LODGE_PRICES[key]}<span style="font-size:0.7rem;font-weight:300">/room</span></div><div class="lodge-detail">${LODGE_DETAILS[key]||''}</div>`;
+    if (isSoldOut) {
+      label.style.opacity='0.5';
+      label.style.pointerEvents='none';
+      label.style.cursor='not-allowed';
+    } else {
+      label.setAttribute('onclick',`selectLodge('${key}',this)`);
+    }
+    const priceDisplay = isTent
+      ? `$${LODGE_PRICES[key]}<span style="font-size:0.7rem;font-weight:300"> / tent</span>`
+      : `$${LODGE_PRICES[key]}<span style="font-size:0.7rem;font-weight:300">/room</span>`;
+    const tagHtml = isSoldOut
+      ? `<div style="display:inline-block;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:#fde8e8;color:#b04040;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;">Sold out</div>`
+      : key==='duplex'
+      ? `<div style="display:inline-block;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:#fff8e7;color:#8a5200;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;">Only 3 left!</div>`
+      : key==='tent'
+      ? `<div style="display:inline-block;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:var(--mist);color:var(--sage);padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;">New this year</div>`
+      : '';
+    label.innerHTML=`<input type="radio" name="lodge" value="${key}">${tagHtml}<div class="lodge-name">${LODGE_NAMES[key]}</div><div class="lodge-price">${priceDisplay}</div><div class="lodge-detail">${LODGE_DETAILS[key]||''}</div>`;
     lodgeGrid.appendChild(label);
   });
   const nextBtn=document.querySelector('[onclick="goToFromLodge()"]');
